@@ -1,13 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<!-- Add CSS at the head of HTML file -->
-    <link rel="stylesheet" href="./css/main.css">
+    <meta charset="UTF-8"/>
+    <title>Index page</title>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/vis.min.js"></script>
+    <script type="text/javascript" src="js/queue.js"></script>
+    <script type="text/javascript" src="js/options.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&subset=cyrillic" rel="stylesheet" referrerpolicy="origin">
+
+    <link href="css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-		<!-- Your code goes here-->
-
-	<!-- Add JS at the bottom of HTML file --> 
-        <script src="./js/main.js"></script>
+    <div id = "gradientCon">
+        <div id="gradient"></div>
+        <script>
+            $('#gradient').css('background-position', randomInt(-10000,0) + 'px 0px');
+        </script>
+    </div>
+    <div class="main-column">
+        <div class="header index">Heuristic Search</div>
+        <div class="algorithms">
+            <a class="algorithm" href="branch-and-bound.html">
+                Travelling Salesman Problem
+            </a>
+            <!-- <a class="algorithm" href="branch-and-bound.html">
+                User selection
+            </a> -->
+        </div>
+    </div>
 </body>
 </html>
