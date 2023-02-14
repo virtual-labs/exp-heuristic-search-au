@@ -7,7 +7,7 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/vis.min.js"></script>
     <script type="text/javascript" src="js/queue.js"></script>
-    <script type="text/javascript" src="js/options.js"></script>
+    <script type="text/javascript" src="js/manual/man_option.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&subset=cyrillic" rel="stylesheet" referrerpolicy="origin">
@@ -20,9 +20,8 @@
     <div class="main-column">
         <a class="header" >TSP Using Heuristic &nbsp;<i class="fa fa-info-circle" id="info-circle"style="font-size:20px;color: rgb(206, 201, 201);">
             <p>To find the global optimum, we randomly start from a point and look at the neighboring points.
-                If we find a point that is better than the current one, we move in its direction.
-                 Then, we do the same for the new point until we reach a point where there’s no better one in its vicinity.
-                </p>
+                 If we find a point that is better than the current one, we move in its direction.
+                  Then, we do the same for the new point until we reach a point where there’s no better one in its vicinity.</p>
                 </i></a>
     
         
@@ -32,28 +31,32 @@
         <div id="tr"> <b>Tree shows all the possible paths</b></div>
         </div> -->
         <div class="fle">
-        <div id="boxx">
-            
-          
+        <div id="boxx">          
 
             <div id="s" >
-        <label for="editor" >Number of nodes </label>
+        <label for="editor" >Number of Nodes </label>
         
         <input type ="text" id='editor' placeholder="Enter no: nodes" rows="2"></input>
         
-        <label for="startNodeInput">Start Node: </label>
-        <input type="text" id="startNodeInput" style="width: 97%;">
+        <label for="startNodeInput">Source Node: </label>
+        <input type="text" id="startNodeInput" style="width: 97%;   ">
     </div>
+    <!-- <div class ="man" >
+        <a href="./index.html"> <button type="button" id="random1" style="background-color: rgb(133, 137, 137);"> Random</button></a>
+       
+        <button type="button" id="manual" style="background-color: #af0c0c; color: white;">Manual</button>
+       
+    </div> -->
     <div class="rm">
         <div class ="ran">
-           <input type="radio" name="mode" id="random" value="random" checked></input>
+             <input type="radio" name="mode" id="random" value="random" ></input>
             <label for="random">
-                <a href="./index.html"> 
+                <a href="./index.html">
                 Random</a>
             </label>
         </div>
         <div class ="man">
-           <input type="radio" name="mode" id="manual" value="manual"></input>
+             <input type="radio" name="mode" id="manual" value="manual" checked></input>
             <label for="manual">
                 <a href="./manual.html"> 
                 Manual</a>
@@ -69,9 +72,6 @@
     </script>
     
       
-        
-        
-  
         <div class="btn1">
             <div class="btn green" onclick="solvePlanar(solveBranchAndBound);">Solve</div>
             <div class="btn red" style="margin-right: 0;" onclick="stopAnimation(); reset();">Reset</div>
@@ -81,8 +81,6 @@
         <div id="feedpath">
         <div id="path Explanation" style="overflow:scroll;height:250px;"></div>
         </div>
-
-
      <script>
         function clearText() {
           document.getElementById("editor").value = ""
@@ -91,9 +89,6 @@
 
     }
       </script>
-
-
-
       </div>
         <div class="content" style="position: relative;">
             
@@ -107,15 +102,14 @@
          </div>
             <div class="column" style="width:55%; border-right: 1px solid #af0c0c">
                 
-                <!-- <div class="about left top" >haii
+                <div class="about left top" >About &nbsp;
                     <i class="fa fa-info-circle" id="about-circle"style="font-size:20px;color: rgb(206, 201, 201);">
-                        <p>Hill climbing is a simple heuristic search algorithm. To find the global optimum, we randomly start from a point and look at the neighboring points.
-                            If we find a point that is better than the current one, we move in its direction.
-                             Then, we do the same for the new point until we reach a point where there’s no better one in its vicinity.</p>
-                            </i></a> -->
+                        <p><b>*Double Click To Add New Nodes</b><br>
+                            <b>*Click The Labels To Change The Distance</b><br></p>
+                            </i></a>
                     <!-- <b>DoubleClick</b> - add point <br> 
                     <b>Drag</b> - nodes to change distance<br> -->
-                <!-- </div>  -->
+                </div> 
                 <div id="graph"></div>
                
             </div>
@@ -133,10 +127,10 @@
                    
                 </div>
             </div></div>
-            <script type="text/javascript" src="js/script.js"></script>
-            <script type="text/javascript" src="js/editor.js"></script>
-            <script type="text/javascript" src="js/solver.js"></script>
-            <script>maxNodesNumber = 15; smallGraph();</script>
+            <script type="text/javascript" src="js/manual/man_script.js"></script>
+            <script type="text/javascript" src="js/manual/man_editor.js"></script>
+            <script type="text/javascript" src="js/manual/man_solver.js"></script>
+            <script>maxNodesNumber = 100; smallGraph();</script>
         </div>
     </div>
 </body>

@@ -2,36 +2,41 @@ var nodes = graph.nodes;
 var textArea = document.getElementById('editor');
 var maxNodesNumber = 15;
 
-textArea.onblur = function() {
-   value = textArea.value;
-  if(value < 1 || value > 15) {
-    alert("Enter a value between 1 and 15");
-    textArea.focus();
-  }
+window.onload = function() {
+    let textarea = document.getElementById('editor');
+    textarea.value = Math.floor(Math.random() * 10) + 4; // generate a random number between 1 and 15
+    textarea.setAttribute("readonly", true); // make the textarea read-only
+    updateGraph();
+  };
+  
 
-}
-
+  
 
 function updateTextArea() {
     var size = nodes.length;
     var s = '' + size + '\n';
-    // nodes.forEach(function (node) {
-    //    `${s += node.x + ' ' + node.y + '\n'}` 
-    //   `${ s += node.x + ' ' + node.y + '\n'}`
-    //  }
-    // );
+   
     textArea.value = s;
+}
+
+function resetTextArea(){
+    textArea.value = '';
+    
+    // delete all nodes
+    nodes.clear();
 }
 
 
 function updateGraph() {
     var lines = textArea.value.split('\n');
-   
+   console.log(lines)
     var size = Math.min(maxNodesNumber, parseInt(lines[0].split(' ')[0]));
     nodes.clear();
-    
+    console.log('hi')
     for (var i = 0; i < size; i++) {
-        var x = 0, y = 0;
+        var x, y;
+        x = Math.floor(Math.random() * 200);
+        y = Math.floor(Math.random() * 200) - 100;
         if (i + 1 < lines.length) {
             var numbers = lines[i + 1].split(' ').map(function (x) {
                 return parseInt(x);
@@ -43,16 +48,42 @@ function updateGraph() {
         }
         nodes.add({
             id: i,
-            label: ''+i,
+            label: ''+String.fromCharCode(65+i),
             x: x,
             y: y
         })
     }
+    // connect all nodes randomly
+    var edges = [];
+    for (var i = 0; i < size; i++) {
+        for (var j = i + 1; j < size; j++) {
+            edges.push({
+                from: i,
+                to: j,
+                label: ''+Math.round(Math.sqrt(Math.pow(nodes.get(i).x - nodes.get(j).x, 2) + Math.pow(nodes.get(i).y - nodes.get(j).y, 2))),
+            });
+        }
+    }
+    graph.edges.clear();
+    graph.edges.add(edges);
+    // zoom graph
+    graphNetwork.fit();
+    graphNetwork.focus(size - 1, {
+        scale: 2,
+        animation: false
+    });
+    
+
 }
 
 var timer = null;
 
 $("#editor").keyup(function (e) {
+    // check if backspace
+    if (e.which == 8) {
+        reset();
+        updateGraph();
+    }
     clearTimeout(timer);
     if (!parseInt(String.fromCharCode(e.which))) {
         updateGraph();
@@ -74,21 +105,27 @@ graphNetwork.on('dragEnd', function (params) {
             y: Math.trunc(params.pointer.canvas.y)
         });
         updateTextArea();
+        // update edges label
+        var edges = graph.edges.get({
+            filter: function (edge) {
+                return edge.from == node.id || edge.to == node.id;
+            }
+        });
+        edges.forEach(function (edge) {
+            var from = nodes.get(edge.from);
+            var to = nodes.get(edge.to);
+            graph.edges.update({
+                id: edge.id,
+                label: ''+Math.round(
+                    Math.sqrt(Math.pow(from.x - to.x, 2) + 
+                    Math.pow(from.y - to.y, 2))
+                ),
+            });
+        }
+        );
     }
 });
 
-graphNetwork.on('doubleClick', function doubleClick(params) {
-    if (params.nodes.length === 0 && params.edges.length === 0 && nodes.length < maxNodesNumber) {
-        nodes.add({
-            id: nodes.length,
-            label: ''+nodes.length,
-            x: Math.trunc(params.pointer.canvas.x),
-            y: Math.trunc(params.pointer.canvas.y)
-        });
-        console.log(params);
-    }
-    updateTextArea();
-},);
 
 
 

@@ -61,9 +61,9 @@ var treeOptions = {
         dragView: true,
         zoomView: true
     }
-  };
-  
-  var graphOptions = {
+};
+
+var graphOptions = {
     physics: {
         enabled: false
     },
@@ -110,22 +110,22 @@ var treeOptions = {
         dragView: true,
         zoomView: true
     }
-  };
-  
-  var treeRoot = {
-      border: '#c7fcb4',
-      background: '#18ab17',
-      highlight: {
-          border: '#c7fcb4',
-          background: '#18ab17'
-      },
-      hover: {
-          border: '#c7fcb4',
-          background: '#18ab17'
-      }
-  };
-  
-  var treeResult = {
+};
+
+var treeRoot = {
+    border: '#c7fcb4',
+    background: '#18ab17',
+    highlight: {
+        border: '#c7fcb4',
+        background: '#18ab17'
+    },
+    hover: {
+        border: '#c7fcb4',
+        background: '#18ab17'
+    }
+};
+
+var treeResult = {
     border: '#18ab17',
     background: '#c7fcb4',
     highlight: {
@@ -136,9 +136,9 @@ var treeOptions = {
         border: '#18ab17',
         background: '#c7fcb4'
     }
-  };
-  
-  var treeBad = {
+};
+
+var treeBad = {
     border: '#d51913',
     background: '#fc817f',
     highlight: {
@@ -149,9 +149,9 @@ var treeOptions = {
         border: '#d51913',
         background: '#fc817f'
     }
-  };
-  
-  var treeResultTail = {
+};
+
+var treeResultTail = {
     border: '#138412',
     background: '#48fc3e',
     highlight: {
@@ -162,10 +162,10 @@ var treeOptions = {
         border: '#138412',
         background: '#48fc3e'
     }
-  };
-  
-  var treeResultEdge = {
+};
+
+var treeResultEdge = {
     color: '#18ab17',
     highlight: '#18ab17',
     hover: '#18ab17'
-  };
+};
