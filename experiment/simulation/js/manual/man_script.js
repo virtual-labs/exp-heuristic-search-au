@@ -43,8 +43,3 @@ window.onload = function() {
   
 
 
-
-
-
-
-
