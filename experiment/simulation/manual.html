@@ -18,11 +18,23 @@
 <body>
     
     <div class="main-column">
-        <a class="header" >TSP Using Heuristic &nbsp;<i class="fa fa-info-circle" id="info-circle"style="font-size:20px;color: rgb(206, 201, 201);">
+        <div class="headinfo">
+            <div class="about" >About &nbsp;
+                <i class="fa fa-info-circle" id="about-circle"style="font-size:20px;color: rgb(206, 201, 201);">
+                    <p><b>*Double Click To Add New Nodes</b><br>
+                        <b>*Click The Labels To Change The Distance</b><br></p>
+                        </i></a>
+                        </div>
+       
+       
+            <a class="header" >TSP&nbsp;<i class="fa fa-info-circle" id="info-circle"style="font-size:20px;color: rgb(206, 201, 201);">
             <p>To find the global optimum, we randomly start from a point and look at the neighboring points.
                  If we find a point that is better than the current one, we move in its direction.
                   Then, we do the same for the new point until we reach a point where there’s no better one in its vicinity.</p>
                 </i></a>
+
+                
+        </div>
     
         
     
@@ -102,14 +114,14 @@
          </div>
             <div class="column" style="width:55%; border-right: 1px solid #af0c0c">
                 
-                <div class="about left top" >About &nbsp;
+                <!-- <div class="about left top" >About &nbsp;
                     <i class="fa fa-info-circle" id="about-circle"style="font-size:20px;color: rgb(206, 201, 201);">
                         <p><b>*Double Click To Add New Nodes</b><br>
                             <b>*Click The Labels To Change The Distance</b><br></p>
-                            </i></a>
+                            </i></a> -->
                     <!-- <b>DoubleClick</b> - add point <br> 
                     <b>Drag</b> - nodes to change distance<br> -->
-                </div> 
+                <!-- </div>  -->
                 <div id="graph"></div>
                
             </div>
