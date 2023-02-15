@@ -123,11 +123,38 @@ function updateGraph() {
 
 
 }
+
+// graphNetwork.on('doubleClick', function (params) {
+//     console.log(params.nodes.length);
+//     console.log(params.edges.length);
+
+//     var edge = graph.edges.get(params.edges[0]);
+//     var from = nodes.get(edge.from);
+//     var to = nodes.get(edge.to);
+//     var distance = null;    //= Math.round(Math.sqrt(Math.pow(from.x - to.x, 2) + Math.pow(from.y - to.y, 2)));
+//     var newDistance = prompt("Enter new distance", distance);
+//     if (newDistance != null) {
+//         graph.edges.clear();
+//                 var size = nodes.length;
+//                 for (var i = 0; i < size; i++) {
+//                     for (var j = i + 1; j < size; j++) {
+//                         graph.edges.add({
+//                             from: i,
+//                             to: j,
+//                             label: '' + Math.round(Math.sqrt(Math.pow(nodes.get(i).x - nodes.get(j).x, 2) + Math.pow(nodes.get(i).y - nodes.get(j).y, 2))),
+//                         });
+//                     }
+//                 }
+
+//     }
+
+
+// });
 //onclick to egde to change label
 graphNetwork.on('click', function (params) {
     params.event = "[original event]";
-
-    if (params.edges.length > 0) {
+    console.log(params.edges.length);
+    if (params.edges.length == 1) {
         var edge = graph.edges.get(params.edges[0]);
         var from = nodes.get(edge.from);
         var to = nodes.get(edge.to);
@@ -182,7 +209,6 @@ graphNetwork.on('click', function (params) {
         }
     }
 });
-
 //change node position according to newDistance
 
 

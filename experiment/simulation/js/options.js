@@ -113,11 +113,11 @@ var treeOptions = {
   };
   
   var treeRoot = {
-      border: '#c7fcb4',
-      background: '#18ab17',
+      border: '#18ab17',
+      background:'#c7fcb4' ,
       highlight: {
-          border: '#c7fcb4',
-          background: '#18ab17'
+          border: '#18ab17',
+          background: '#c7fcb4'
       },
       hover: {
           border: '#c7fcb4',

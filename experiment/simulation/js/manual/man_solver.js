@@ -270,9 +270,7 @@ function solveBranchAndBound(n, d) {
     }
 
 
-    // console.log('hello')
-    // console.log(dist)
-    // console.log(tree.nodes._data)
+   
     setTimeout(displayState, delay, result);
     for (var i = 0; i < states.length; i++) {
         var state = states[i];
@@ -289,19 +287,7 @@ function solveBranchAndBound(n, d) {
     }
     setTimeout(showResultPath, delay, finalShortestPath);
 
-    // network.on("click", function (params) {
-    //     console.log("heloooo");
-    //     if (params.nodes.length > 0) {
-    //       var nodeId = params.nodes[0];
-    //       var node = network.body.data.nodes.get(nodeId);
-    //       var input = document.createElement("input");
-    //       input.value = node.label;
-    //       node.label = input;
-    //       network.body.data.nodes.update(node);
-    //     } else {
-    //       // code to handle click on background
-    //     }
-    //   });
+  
 
 
 
