@@ -2,38 +2,65 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "What is the traveling salesman problem?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "A problem in which a salesman must visit a set of cities and return to the starting city        ",
+        "b": "A problem in which a salesman must visit a set of cities in any order        ",
+        "c": "A problem in which a salesman must visit a set of cities and stay in the last city"
+        
       },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
+      
       "correctAnswer": "a",
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "What is the objective of the traveling salesman problem?      ",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "To minimize the total distance traveled by the salesman        ",
+        "b": "To maximize the total distance traveled by the salesman",
+        "c": "To find the shortest route between two cities"
+        
       },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+     
+      "correctAnswer": "a",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "What is the complexity of the traveling salesman problem? ",
+      "answers": {
+        "a": "NP",
+        "b": "NP-hard",
+        "c": "P"
+        
       },
+     
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Which of the following algorithms is a heuristic for the traveling salesman problem?",
+      "answers": {
+        "a":  "Dijkstra's algorithm",
+        "b": " A* algorithm",
+        "c": "Nearest neighbor algorithm"
+        
+      },
+     
       "correctAnswer": "c",
       "difficulty": "beginner"
+    },
+    {
+      "question": "What is the 2-opt algorithm?",
+      "answers": {
+        "a":  " A method to select two cities and swap their positions in the route        ",
+        "b": "A way to generate all possible routes and select the shortest one",
+        "c": "A heuristic approach to group cities into clusters        "
+        
+      },
+     
+      "correctAnswer": "a",
+      "difficulty": "beginner"
     }
+
   ]
 }

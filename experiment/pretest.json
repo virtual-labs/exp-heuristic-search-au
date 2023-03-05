@@ -2,37 +2,63 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "What is the goal of the Salesman algorithm?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": " A method to optimize traveling salesman route",
+        "b": " A way to book airline tickets",
+        "c": "A technique to pack for a long journey"
+        
       },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
+     
       "correctAnswer": "a",
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "What is the main objective of the Salesman algorithm? ",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "To minimize the cost of travel",
+        "b": "To maximize the profit of the salesman        ",
+        "c": "To optimize the route taken by the salesman"
+       
       },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
+      
       "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "What is the time complexity of the Salesman algorithm? ",
+      "answers": {
+        "a": " O(1)",
+        "b": " O(n log n) ",
+        "c": "O(n!)"
+       
+      },
+      
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Which of the following is not a constraint of the Salesman algorithm? ",
+      "answers": {
+        "a": "The route must start and end at the same location",
+        "b": "Each location must be visited exactly once        ",
+        "c": "The route must cover all locations in any order"
+       
+      },
+      
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "What is the brute force approach to solve the Salemens problem?",
+      "answers": {
+        "a": "Generate all possible routes and select the shortest one        ",
+        "b": "Use a genetic algorithm to find the shortest route        ",
+        "c": " Implement a neural network to optimize the route"
+       
+      },
+      
+      "correctAnswer": "a",
       "difficulty": "beginner"
     }
   ]

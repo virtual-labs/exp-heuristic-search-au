@@ -1,7 +1,7 @@
-## Traveling Salesman Problem (TSP) By Hill Climbing
+## Procedure
+Consider the following situation. You are given a list of n cities with the distance between any two cities. Now, you have to start with starting point and to visit all the cities only once each and return to the same point. What is the shortest path can you take? This problem is called the Traveling Salesman Problem (TSP).
 
- ### Consider the following situation. You are given a list of n cities with the distance between any two cities. Now, you have to start with starting point and to visit all the cities only once each and return to the same point. What is the shortest path can you take? This problem is called the Traveling Salesman Problem (TSP).
-<ol>
+ <ol>
 <li>
   Consider a city as the starting and ending point. We can use any city as a starting point because the route is cyclic.</li>
 
