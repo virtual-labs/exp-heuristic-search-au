@@ -39,7 +39,22 @@
         <div id="boxx">
             
           
-
+            <div class="rm">
+                <div class ="ran">
+                   <input type="radio" name="mode" id="random" value="random" checked></input>
+                    <label for="random">
+                        <a href="./index.html"> 
+                        Random</a>
+                    </label>
+                </div>
+                <div class ="man">
+                   <input type="radio" name="mode" id="manual" value="manual"></input>
+                    <label for="manual">
+                        <a href="./manual.html"> 
+                        Manual</a>
+                    </label>
+                </div>
+            </div>
             <div id="s" >
         <label for="editor" >Number of nodes </label>
         
@@ -48,22 +63,7 @@
         <label for="startNodeInput">Start Node: </label>
         <input type="text" id="startNodeInput" style="width: 97%;">
     </div>
-    <div class="rm">
-        <div class ="ran">
-           <input type="radio" name="mode" id="random" value="random" checked></input>
-            <label for="random">
-                <a href="./index.html"> 
-                Random</a>
-            </label>
-        </div>
-        <div class ="man">
-           <input type="radio" name="mode" id="manual" value="manual"></input>
-            <label for="manual">
-                <a href="./manual.html"> 
-                Manual</a>
-            </label>
-        </div>
-    </div>
+    
     <script>
         document.querySelectorAll('label').forEach(function(label) {
             label.addEventListener('click', function() {
@@ -101,8 +101,13 @@
       </div>
         <div class="content" style="position: relative;">
             
-         <div class="feed">
+           
             
+         <div class="feed">
+            <div class="info">
+                <p><b>*Double Click To Add New Nodes</b><br>
+                    <b>*Click The Labels To Change The Distance</b><br></p>
+            </div>
             <div id="shortest_path" style="position: absolute; bottom: 35px;"></div>
             <div id="final_path" style="position: absolute; bottom: 15px;"></div>
             <div id="final_length" style="position: absolute; bottom: 50px;"></div>
@@ -132,8 +137,8 @@
                 <div class="hint1" style=" bottom: 15px;">
                     
                     <!-- <span style="color:#e99528">yellow</span> - Start<br> -->
-                    <div ><span style="color:#138412 ">Green </span>- Shortest path<br></div>
-                    <div ><span style="color:#d51913">Red </span>-All Possible Paths<br></div>
+                    <div ><span style="color:#138412 ">Green </span> - Shortest path<br></div>
+                    <div ><span style="color:#d51913">Red </span> - All Possible Paths<br></div>
                    
                 </div>
             </div></div>

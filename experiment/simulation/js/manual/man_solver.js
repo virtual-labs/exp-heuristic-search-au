@@ -1,4 +1,4 @@
-
+let orignalEdges;
 
 var info = document.getElementById('info');
 var dist;
@@ -54,14 +54,19 @@ function nextState(state, next, n, d) {
     return nextState;
 }
 
-function solvePlanar(solver) {
+function solvePlanar(solver) {  
+    // Deep copy graph.edges
+    orignalEdges = new Array(graph.edges.length);
+    graph.edges.forEach(element => {
+        orignalEdges.push(element);
+    })
+
     path='';
     var nodes = graph.nodes;
     var n = nodes.length;
     var d = new Array(n);
 
     const startNodeInput = document.getElementById("startNodeInput");
-    const editor = document.getElementById("editor");
     let popup1 = document.getElementById("popup1");
     let popup2 = document.getElementById("popup2");
     if (!startNodeInput.value) {
@@ -93,6 +98,7 @@ function solvePlanar(solver) {
     }
      startNodeInput.value = startNodeInput.value.toUpperCase();
      startNodeInput.value = startNodeInput.value.charCodeAt(0) - 65;
+     console.log(startNodeInput.value)
     if (startNodeInput.value < 0 || startNodeInput.value >= n) {
         if (!popup1) {
             popup1 = document.createElement("div");
@@ -121,19 +127,32 @@ function solvePlanar(solver) {
         startNodeInput.focus();
         return;
     }
- 
-
-    
-
- for (var i = 0; i < n; i++) {
+    for ( let i = 0; i < n; i++) {
         d[i] = new Array(n);
-        for (var j = 0; j < n; j++) {
-            var dx = nodes.get(i).x - nodes.get(j).x;
-            var dy = nodes.get(i).y - nodes.get(j).y;
-            d[i][j] = Math.sqrt(dx * dx + dy * dy);
+        // Set all intitial to zero
+        for (let j = 0; j < n; j++) {
+            d[i][j] = 0;
         }
     }
-    // startNodeInput.value = String.fromCharCode(parseInt(startNodeInput.value) + 65);
+
+    for (let i = 0; i < n; i++) {
+        graph.edges.forEach( (element) => {
+            if (i == element.from) {
+                d[i][element.to] = parseInt(element.label)
+            }
+        })
+    }
+  
+    for (let i = 0; i < n; i++) {
+        for( let j = 0; j < n; j++) {
+            if(d[i][j] != 0) {
+                d[j][i] = d[i][j]
+            }
+        }
+    }
+
+
+    console.log(d)
     solver(n, d);
 }
 
@@ -142,9 +161,21 @@ function reset() {
     tree.nodes.clear();
     tree.edges.clear();
     graph.edges.clear();
-    //graph.node.clear();
+    graph.node.clear();
     info.innerHTML = '';
     nodes.clear();
+    clearText();
+    document.getElementById("shortest_path").innerHTML = "";
+    updateTextArea();
+    document.getElementById('path Explanation').innerHTML = '';
+}
+
+function resetOnlyResult() {
+    console.log("reset");
+    tree.nodes.clear();
+    tree.edges.clear();
+
+    info.innerHTML = '';
     clearText();
     document.getElementById("shortest_path").innerHTML = "";
     updateTextArea();
@@ -206,14 +237,17 @@ function solveBranchAndBound(n, d) {
                 var from = graph.nodes.get(state.prevId);
                 var to = graph.nodes.get(state.id);
                 try{
-                dist = Math.sqrt((from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y));
+                // dist = Math.sqrt((from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y));
+                orignalEdges.forEach((element) => {
+                    if(element.from == from.id && element.to == to.id) {
+                        dist = parseInt(element.label)
+                    }})
                 }catch(e){
                 dist = 10;
                 }
                 var position = treeNetwork.getPositions([state.prevId])[state.prevId];
                 var x = position.x + randomInt(-dist, dist);
                 var y = position.y + randomInt(-dist, dist);
-                console.log(x, y);
                 tree.nodes.add({
                     id: state.id,
                     state: state,
@@ -342,10 +376,17 @@ function displayPath(path) {
     for (var i = 0; i < n; i++) {
         var from = graph.nodes.get(path[i]);
         var to = graph.nodes.get(path[(i + 1) % n]);
+        let label
+        console.log(orignalEdges)
+        orignalEdges.forEach((element) => {
+            if((element.from == from.id && element.to == to.id) || (element.to == from.id && element.from == to.id) ) {
+                label = element.label
+            }})
         graph.edges.add({
             from: path[i],
             to: path[(i + 1) % n],
-            label: Math.sqrt((from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y)).toFixed(3)
+            // label: Math.sqrt((from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y)).toFixed(3)
+            label : label
         });
     }
 }

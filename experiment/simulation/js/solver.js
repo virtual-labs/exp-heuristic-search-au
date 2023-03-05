@@ -120,9 +120,6 @@ function solvePlanar(solver) {
         startNodeInput.focus();
         return;
     }
-
-
-
     for (var i = 0; i < n; i++) {
         d[i] = new Array(n);
         for (var j = 0; j < n; j++) {
@@ -131,6 +128,7 @@ function solvePlanar(solver) {
             d[i][j] = Math.sqrt(dx * dx + dy * dy);
         }
     }
+    console.log(d)
     //startNodeInput.value = String.fromCharCode(parseInt(startNodeInput.value) + 65);
     solver(n, d);
 }
@@ -217,8 +215,10 @@ function solveBranchAndBound(n, d) {
                     label: '' + String.fromCharCode(65 + state.path[state.path.length - 1])
                 });
                 tree.edges.add({ from: state.id, to: state.prevId });
-            }, delay, current);            // console.log(tree.nodes, tree.edges)
+            }, delay, current);           
+             console.log(tree.nodes, tree.edges)
             delay += 2000;
+            
         }
 
 

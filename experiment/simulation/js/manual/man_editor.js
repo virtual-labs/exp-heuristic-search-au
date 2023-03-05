@@ -1,5 +1,7 @@
 var nodes = graph.nodes;
 var textArea = document.getElementById('editor');
+document.getElementById("editor").disabled = true;
+
 var maxNodesNumber = 100;
 
 textArea.addEventListener("input", function (event) {
@@ -155,59 +157,67 @@ graphNetwork.on('click', function (params) {
     params.event = "[original event]";
     console.log(params.edges.length);
     if (params.edges.length == 1) {
-        var edge = graph.edges.get(params.edges[0]);
-        var from = nodes.get(edge.from);
-        var to = nodes.get(edge.to);
-        var distance = Math.round(Math.sqrt(Math.pow(from.x - to.x, 2) + Math.pow(from.y - to.y, 2)));
-        var newDistance = prompt("Enter new distance", distance);
-        if (newDistance != null) {
-            if (1) {
-                var t = newDistance / distance;
-                var x = ((1 - t) * from.x + t * to.x);
-                var y = ((1 - t) * from.y + t * to.y);
-                nodes.update({
-                    id: to.id,
-                    x: x,
-                    y: y
-                });
-                // clear all edges and add new edges
-                graph.edges.clear();
-                var size = nodes.length;
-                for (var i = 0; i < size; i++) {
-                    for (var j = i + 1; j < size; j++) {
-                        graph.edges.add({
-                            from: i,
-                            to: j,
-                            label: '' + Math.round(Math.sqrt(Math.pow(nodes.get(i).x - nodes.get(j).x, 2) + Math.pow(nodes.get(i).y - nodes.get(j).y, 2))),
-                        });
-                    }
-                }
-            } else if (distance < newDistance) {
-                var update = newDistance - distance;
-                var x = from.x - update;
-                var y = from.y - update;
-                nodes.update({
-                    id: from.id,
-                    x: x,
-                    y: y
-                });
-                // clear all edges and add new edges
-                graph.edges.clear();
-                for (var i = 0; i < size; i++) {
-                    for (var j = i + 1; j < size; j++) {
-                        graph.edges.add({
-                            from: i,
-                            to: j,
-                            label: '' + Math.round(Math.sqrt(Math.pow(nodes.get(i).x - nodes.get(j).x, 2) + Math.pow(nodes.get(i).y - nodes.get(j).y, 2))),
-                        });
-                    }
-                }
-
-
-
-            }
-        }
+        const clickedEdge = params.edges[0]
+         const newDistance = prompt("Enter New distance")
+        graph.edges.update({
+            id: clickedEdge,
+            label: newDistance
+        });
     }
+    // if (params.edges.length == 1) {
+    //     var edge = graph.edges.get(params.edges[0]);
+    //     var from = nodes.get(edge.from);
+    //     var to = nodes.get(edge.to);
+    //     var distance = Math.round(Math.sqrt(Math.pow(from.x - to.x, 2) + Math.pow(from.y - to.y, 2)));
+    //     var newDistance = prompt("Enter new distance", distance);
+    //     if (newDistance != null) {
+    //         if (1) {
+    //             var t = newDistance / distance;
+    //             var x = ((1 - t) * from.x + t * to.x);
+    //             var y = ((1 - t) * from.y + t * to.y);
+    //             nodes.update({
+    //                 id: to.id,
+    //                 x: x,
+    //                 y: y
+    //             });
+    //             // clear all edges and add new edges
+    //             graph.edges.clear();
+    //             var size = nodes.length;
+    //             for (var i = 0; i < size; i++) {
+    //                 for (var j = i + 1; j < size; j++) {
+    //                     graph.edges.add({
+    //                         from: i,
+    //                         to: j,
+    //                         label: '' + Math.round(Math.sqrt(Math.pow(nodes.get(i).x - nodes.get(j).x, 2) + Math.pow(nodes.get(i).y - nodes.get(j).y, 2))),
+    //                     });
+    //                 }
+    //             }
+    //         } else if (distance < newDistance) {
+    //             var update = newDistance - distance;
+    //             var x = from.x - update;
+    //             var y = from.y - update;
+    //             nodes.update({
+    //                 id: from.id,
+    //                 x: x,
+    //                 y: y
+    //             });
+    //             // clear all edges and add new edges
+    //             graph.edges.clear();
+    //             for (var i = 0; i < size; i++) {
+    //                 for (var j = i + 1; j < size; j++) {
+    //                     graph.edges.add({
+    //                         from: i,
+    //                         to: j,
+    //                         label: '' + Math.round(Math.sqrt(Math.pow(nodes.get(i).x - nodes.get(j).x, 2) + Math.pow(nodes.get(i).y - nodes.get(j).y, 2))),
+    //                     });
+    //                 }
+    //             }
+
+
+
+    //         }
+    //     }
+    // }
 });
 //change node position according to newDistance
 

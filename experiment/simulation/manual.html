@@ -44,7 +44,23 @@
         </div> -->
         <div class="fle">
         <div id="boxx">          
-
+            <div class="rm">
+               <!-- index.html in a radio button -->
+                <div class ="ran">
+                    <input type="radio" name="mode" id="random" value="random"></input>
+                    <label for="random">
+                        <a href="./index.html"> 
+                        Random</a>
+                    </label>
+</div>
+                <div class ="man">
+                     <input type="radio" name="mode" id="manual" value="manual" checked></input>
+                    <label for="manual">
+                        <a href="./manual.html"> 
+                        Manual</a>
+                    </label>
+                </div>
+            </div>
             <div id="s" >
         <label for="editor" >Number of Nodes </label>
         
@@ -59,28 +75,22 @@
         <button type="button" id="manual" style="background-color: #af0c0c; color: white;">Manual</button>
        
     </div> -->
-    <div class="rm">
-        <div class ="ran">
-             <input type="radio" name="mode" id="random" value="random" ></input>
-            <label for="random">
-                <a href="./index.html">
-                Random</a>
-            </label>
-        </div>
-        <div class ="man">
-             <input type="radio" name="mode" id="manual" value="manual" checked></input>
-            <label for="manual">
-                <a href="./manual.html"> 
-                Manual</a>
-            </label>
-        </div>
-    </div>
+    
     <script>
         document.querySelectorAll('label').forEach(function(label) {
             label.addEventListener('click', function() {
                 console.log('Label clicked!');
             });
         });
+
+        document.getElementById("startNodeInput").addEventListener("keyup", function(event) {
+            if (event.keyCode === 8) {
+                event.preventDefault();
+                // reset
+                resetOnlyResult();
+            }
+        });
+
     </script>
     
       
