@@ -19,19 +19,15 @@
     
     <div class="main-column">
         <div class="headinfo">
-            <div class="about" >About &nbsp;
+            <!-- <div class="about" >Info &nbsp;
                 <i class="fa fa-info-circle" id="about-circle"style="font-size:20px;color: rgb(206, 201, 201);">
                     <p><b>*Double Click To Add New Nodes</b><br>
                         <b>*Click The Labels To Change The Distance</b><br></p>
                         </i></a>
-                        </div>
+                        </div> -->
        
        
-            <a class="header" >TSP&nbsp;<i class="fa fa-info-circle" id="info-circle"style="font-size:20px;color: rgb(206, 201, 201);">
-            <p>To find the global optimum, we randomly start from a point and look at the neighboring points.
-                 If we find a point that is better than the current one, we move in its direction.
-                  Then, we do the same for the new point until we reach a point where there’s no better one in its vicinity.</p>
-                </i></a>
+            
 
                 
         </div>
@@ -47,16 +43,16 @@
             <div class="rm">
                <!-- index.html in a radio button -->
                 <div class ="ran">
-                    <input type="radio" name="mode" id="random" value="random"></input>
+                    <input onchange="window.location.href='./index.html'" type="radio" name="mode" id="random" value="random">
                     <label for="random">
-                        <a href="./index.html"> 
+                        
                         Random</a>
                     </label>
 </div>
                 <div class ="man">
-                     <input type="radio" name="mode" id="manual" value="manual" checked></input>
+                     <input onchange="window.location.href='./manual.html'" type="radio" name="mode" id="manual" value="manual" checked>
                     <label for="manual">
-                        <a href="./manual.html"> 
+                       
                         Manual</a>
                     </label>
                 </div>
@@ -64,17 +60,12 @@
             <div id="s" >
         <label for="editor" >Number of Nodes </label>
         
-        <input type ="text" id='editor' placeholder="Enter no: nodes" rows="2"></input>
+        <input type ="text" id='editor' placeholder="Enter no: nodes" rows="2">
         
         <label for="startNodeInput">Source Node: </label>
         <input type="text" id="startNodeInput" style="width: 97%;   ">
     </div>
-    <!-- <div class ="man" >
-        <a href="./index.html"> <button type="button" id="random1" style="background-color: rgb(133, 137, 137);"> Random</button></a>
-       
-        <button type="button" id="manual" style="background-color: #af0c0c; color: white;">Manual</button>
-       
-    </div> -->
+    
     
     <script>
         document.querySelectorAll('label').forEach(function(label) {
@@ -90,6 +81,7 @@
                 resetOnlyResult();
             }
         });
+
 
     </script>
     
@@ -115,6 +107,10 @@
         <div class="content" style="position: relative;">
             
          <div class="feed">
+            <div class="infoh">
+                <p><b>*Double Click To Add New Nodes</b><br>
+                    <b>*Click The Labels To Change The Distance</b><br></p>
+            </div>
             
             <div id="shortest_path" style="position: absolute; bottom: 35px;"></div>
             <div id="final_path" style="position: absolute; bottom: 15px;"></div>
