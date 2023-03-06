@@ -1,8 +1,9 @@
 let orignalEdges;
-
 var info = document.getElementById('info');
 var dist;
 var path = '';
+
+let originalGraph
 
 function approximate(path, n, d) {
     if (path.length === n) {
@@ -55,7 +56,10 @@ function nextState(state, next, n, d) {
 }
 
 function solvePlanar(solver) {  
-    // Deep copy graph.edges
+    
+    // deep copy javascript object
+    originalGraph = JSON.parse(JSON.stringify(graph))
+
     orignalEdges = new Array(graph.edges.length);
     graph.edges.forEach(element => {
         orignalEdges.push(element);
@@ -161,7 +165,6 @@ function reset() {
     tree.nodes.clear();
     tree.edges.clear();
     graph.edges.clear();
-    graph.node.clear();
     info.innerHTML = '';
     nodes.clear();
     clearText();
@@ -171,11 +174,13 @@ function reset() {
 }
 
 function resetOnlyResult() {
+    window.alert("Enter the graph again")
     console.log("reset");
     tree.nodes.clear();
     tree.edges.clear();
-
+    graph.edges.clear();
     info.innerHTML = '';
+    nodes.clear();
     clearText();
     document.getElementById("shortest_path").innerHTML = "";
     updateTextArea();
@@ -377,7 +382,7 @@ function displayPath(path) {
         var from = graph.nodes.get(path[i]);
         var to = graph.nodes.get(path[(i + 1) % n]);
         let label
-        console.log(orignalEdges)
+        console.log(from.id, to.id)
         orignalEdges.forEach((element) => {
             if((element.from == from.id && element.to == to.id) || (element.to == from.id && element.from == to.id) ) {
                 label = element.label
