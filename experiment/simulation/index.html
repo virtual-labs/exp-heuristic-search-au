@@ -19,12 +19,7 @@
     
     <div class="main-column">
         <div class="headinfo">
-            <div class="about" >About &nbsp;
-                <i class="fa fa-info-circle" id="about-circle"style="font-size:20px;color: rgb(206, 201, 201);">
-                    <p><b>*Double Click To Add New Nodes</b><br>
-                        <b>*Click The Labels To Change The Distance</b><br></p>
-                        </i></a>
-                        </div>
+            
        
        
             <a class="header" >TSP&nbsp;<i class="fa fa-info-circle" id="info-circle"style="font-size:20px;color: rgb(206, 201, 201);">
@@ -41,16 +36,16 @@
           
             <div class="rm">
                 <div class ="ran">
-                   <input type="radio" name="mode" id="random" value="random" checked></input>
+                   <input type="radio" onchange="window.location.href='./index.html'" name="mode" id="random" value="random" checked></input>
                     <label for="random">
-                        <a href="./index.html"> 
+                        
                         Random</a>
                     </label>
                 </div>
                 <div class ="man">
-                   <input type="radio" name="mode" id="manual" value="manual"></input>
+                   <input type="radio" name="mode" onchange="window.location.href='./manual.html'" id="manual" value="manual"></input>
                     <label for="manual">
-                        <a href="./manual.html"> 
+                        
                         Manual</a>
                     </label>
                 </div>
@@ -104,10 +99,7 @@
            
             
          <div class="feed">
-            <div class="info">
-                <p><b>*Double Click To Add New Nodes</b><br>
-                    <b>*Click The Labels To Change The Distance</b><br></p>
-            </div>
+            
             <div id="shortest_path" style="position: absolute; bottom: 35px;"></div>
             <div id="final_path" style="position: absolute; bottom: 15px;"></div>
             <div id="final_length" style="position: absolute; bottom: 50px;"></div>
