@@ -340,28 +340,30 @@ function displayPath(path) {
 }
 
 function displayState(state) {
-    displayPath(state.path);
-    var path_to_char = state.path.map(function (x) {
-        return String.fromCharCode(65 + x);
-    });
-
-    info.innerHTML =
-
-        //         // '<b>Approximation:</b> ' + state.approximation.toFixed(3) + '<br>' +
-        '<b>Path:</b> ' + path_to_char.join('-> ');
-
-    document.getElementById('shortest_path').innerHTML = '<b>Shortest Distance:</b> ' + state.length.toFixed(3) + '<br>';
-    if (path == '') path = "From Start Node: " + String.fromCharCode(65 + state.path[0]) + "<br>";
-
-    for (var i = 0; i < state.path.length - 1; i++) {
-        path += (i + 1) + ". Node <span style=\"color:green\">" + String.fromCharCode(65 + state.path[i + 1]) + "</span> is close to " +
-            String.fromCharCode(65 + state.path[(i) % state.path.length]) + '  {'
-            + state.path.slice(0, i + 2).map(code => String.fromCharCode(65 + code)).join('') + '}'
-            + "<br>";
+    displayPath(state.path);    
+    var startNode;
+    var startPath="";
+    var neighbourPath = "";
+    startNode = String.fromCharCode(65 + state.path[0]);  
+    startPath += "Start Node: "+startNode ;    
+    document.getElementById('path Explanation').innerHTML = startPath;
+    for (let i = 0; i < state.path.length; i++) {                     
+        graph.edges.forEach(element => {    
+            //if the neighbourPath undefined
+            if(element.from == state.path[i] && element.to == state.path[(i + 1) % state.path.length]){
+                from = String.fromCharCode(65 + element.from);
+                to =  String.fromCharCode(65 + element.to);
+                neighbourPath = document.createElement('div')
+                neighbourPath.innerHTML = " H("+ from +","+ to +") = " +element.label;
+             
+            }
+   
+        });
+        document.getElementById('path Explanation').append(neighbourPath)   
+       document.getElementById('shortest_path').innerHTML = '<b>Shortest Distance:</b> ' + state.length.toFixed(3)+ '<br>';
+ 
     }
-    
-    path += '----------<br>'
-    document.getElementById('path Explanation').innerHTML = path;
+
 }
 
 function stopAnimation() {
