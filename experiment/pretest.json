@@ -2,7 +2,7 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "What is the goal of the Salesman algorithm?",
+      "question": "What is the goal of the Traveling Salesman algorithm?",
       "answers": {
         "a": " A method to optimize traveling salesman route",
         "b": " A way to book airline tickets",
@@ -14,7 +14,7 @@
       "difficulty": "beginner"
     },
     {
-      "question": "What is the main objective of the Salesman algorithm? ",
+      "question": "What is the main objective of the Traveling Salesman algorithm? ",
       "answers": {
         "a": "To minimize the cost of travel",
         "b": "To maximize the profit of the salesman        ",
@@ -24,19 +24,7 @@
       
       "correctAnswer": "c",
       "difficulty": "beginner"
-    },
-    {
-      "question": "What is the time complexity of the Salesman algorithm? ",
-      "answers": {
-        "a": " O(1)",
-        "b": " O(n log n) ",
-        "c": "O(n!)"
-       
-      },
-      
-      "correctAnswer": "c",
-      "difficulty": "beginner"
-    },
+    },  
     {
       "question": "Which of the following is not a constraint of the Salesman algorithm? ",
       "answers": {
@@ -50,15 +38,16 @@
       "difficulty": "beginner"
     },
     {
-      "question": "What is the brute force approach to solve the Salemens problem?",
+      "question": " Which of the mentioned properties of heuristic search differentiates it from other searches?",
       "answers": {
-        "a": "Generate all possible routes and select the shortest one        ",
-        "b": "Use a genetic algorithm to find the shortest route        ",
-        "c": " Implement a neural network to optimize the route"
-       
+        "a":  " It provides solution in a reasonable time frame ",
+        "b": "It provides the reasonably accurate direction to a goal",
+        "c": "It considers both actual costs that it took to reach the current state and approximate cost it would take to reach the goal from the current state",
+        "d": "All of the above"
+        
       },
-      
-      "correctAnswer": "a",
+     
+      "correctAnswer": "d",
       "difficulty": "beginner"
     }
   ]

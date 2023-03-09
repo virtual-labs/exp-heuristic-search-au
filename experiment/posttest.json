@@ -2,15 +2,16 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "What is the traveling salesman problem?",
+      "question": "In which search problem, to find the shortest path, each city must be visited once only?",
       "answers": {
-        "a": "A problem in which a salesman must visit a set of cities and return to the starting city        ",
-        "b": "A problem in which a salesman must visit a set of cities in any order        ",
-        "c": "A problem in which a salesman must visit a set of cities and stay in the last city"
+        "a": "Depth-first search traversal on a given map represented as a graph       ",
+        "b": "Finding the shortest path between a source and a destination",
+        "c": "Travelling Salesman problem",
+        "d": "None of the above"
         
       },
       
-      "correctAnswer": "a",
+      "correctAnswer": "c",
       "difficulty": "beginner"
     },
     {
@@ -18,7 +19,8 @@
       "answers": {
         "a": "To minimize the total distance traveled by the salesman        ",
         "b": "To maximize the total distance traveled by the salesman",
-        "c": "To find the shortest route between two cities"
+        "c": "To find the shortest route between two cities",
+        "d": "None of the above"
         
       },
      
@@ -26,23 +28,12 @@
       "difficulty": "beginner"
     },
     {
-      "question": "What is the complexity of the traveling salesman problem? ",
+      "question": " In the TSP problem of n cities, the time taken for traversing all cities, without having prior knowledge of the length of the minimum tour will be_______.",
       "answers": {
-        "a": "NP",
-        "b": "NP-hard",
-        "c": "P"
-        
-      },
-     
-      "correctAnswer": "b",
-      "difficulty": "beginner"
-    },
-    {
-      "question": "Which of the following algorithms is a heuristic for the traveling salesman problem?",
-      "answers": {
-        "a":  "Dijkstra's algorithm",
-        "b": " A* algorithm",
-        "c": "Nearest neighbor algorithm"
+        "a": "O(n)",
+        "b": "O(n2)",
+        "c": "O(n!)",
+        "d": "O(n/2)"
         
       },
      
@@ -50,17 +41,43 @@
       "difficulty": "beginner"
     },
     {
-      "question": "What is the 2-opt algorithm?",
+      "question": "Which of the following algorithms is a heuristic for the traveling salesman problem?",
       "answers": {
-        "a":  " A method to select two cities and swap their positions in the route        ",
-        "b": "A way to generate all possible routes and select the shortest one",
-        "c": "A heuristic approach to group cities into clusters        "
+        "a": "Dijkstra's algorithm",
+        "b": "A* algorithm",
+        "c": "Nearest neighbor algorithm",
+        "d":"None"
         
       },
      
-      "correctAnswer": "a",
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
+
+    {
+      "question": "Heuristic function h(n) is ______?",
+      "answers": {
+        "a": "Lowest path cost",
+        "b": "Average path cost",
+        "c": "Cheapest path from root to goal node",
+        "d": "Estimated cost of cheapest path from root to goal node"
+       
+      },
+      
+      "correctAnswer": "d",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "What is the time complexity of the Traveling Salesman algorithm? ",
+      "answers": {
+        "a": " O(1)",
+        "b": " O(n log n) ",
+        "c": "O(n!)"
+       
+      },
+      
+      "correctAnswer": "c",
       "difficulty": "beginner"
     }
-
   ]
 }
