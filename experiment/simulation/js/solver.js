@@ -1,8 +1,6 @@
-
-
 var info = document.getElementById('info');
 var dist;
-var path = '';
+let path = '';
 function approximate(path, n, d) {
     if (path.length === n) {
         return 0;
@@ -92,6 +90,9 @@ function solvePlanar(solver) {
     }
     startNodeInput.value = startNodeInput.value.toUpperCase();
     startNodeInput.value = startNodeInput.value.charCodeAt(0) - 65;
+    
+    
+
     if (startNodeInput.value < 0 || startNodeInput.value >= n) {
         if (!popup1) {
             popup1 = document.createElement("div");
@@ -131,6 +132,11 @@ function solvePlanar(solver) {
     console.log(d)
     //startNodeInput.value = String.fromCharCode(parseInt(startNodeInput.value) + 65);
     solver(n, d);
+    updateTextArea();
+}
+//after solving display the startnode value in the text area
+function updateTextArea() {
+    startNodeInput.value = String.fromCharCode(parseInt(startNodeInput.value) + 65);
 }
 
 function reset() {
@@ -141,11 +147,16 @@ function reset() {
     //graph.node.clear();
     info.innerHTML = '';
     nodes.clear();
-    edges.clear();
+    
     clearText();
     document.getElementById("shortest_path").innerHTML = "";
-    updateTextArea();
+    
     document.getElementById('path Explanation').innerHTML = '';
+    
+    updateTextArea();
+    location.reload();
+    
+
 }
 
 const nodesData = tree.nodes._data;
@@ -158,6 +169,7 @@ for (const nodeId in nodesData) {
 
 
 function solveBranchAndBound(n, d) {
+    disableButton();
     let startNode = document.getElementById("startNodeInput").value
 
     const intialnode = graph.nodes._data[startNode]
@@ -248,10 +260,10 @@ function solveBranchAndBound(n, d) {
             continue;
         }
         var unused = [];
-        for (var i = 0; i < n; i++) if (current.path.indexOf(i) === -1) unused.push(i);
+        for ( i = 0; i < n; i++) if (current.path.indexOf(i) === -1) unused.push(i);
         for (var j = 0; j < unused.length; j++) {
             var next = unused[j];
-            var state = nextState(current, next, n, d);
+            state = nextState(current, next, n, d);
             state.id = idCounter++;
             state.prevId = current.id;
             queue.push(state);
@@ -280,8 +292,34 @@ function solveBranchAndBound(n, d) {
         }
     }
     setTimeout(showResultPath, delay, finalShortestPath);
-
+    
 }
+//disable class "btn green" button after click
+function disableButton() {
+   //disable click
+    document.getElementById("submitbtn").onclick = function () { return false; };
+    
+    document.getElementById("submitbtn").style.backgroundColor = "#808080";
+
+   
+}
+//reset all when startnode is changed
+function resetOnlyResult() {
+    window.alert("The graph will be reseted.")
+    tree.nodes.clear();
+    tree.edges.clear();
+    graph.edges.clear();
+    info.innerHTML = '';
+    nodes.clear();
+    clearText();
+    document.getElementById("shortest_path").innerHTML = "";
+    updateTextArea();
+    document.getElementById('path Explanation').innerHTML = '';
+    location.reload();
+}
+
+
+   
 
 function showResultPath(data) {
     displayPath(data.path);
@@ -338,6 +376,7 @@ function displayPath(path) {
         });
     }
 }
+
 
 function displayState(state) {
     displayPath(state.path);    

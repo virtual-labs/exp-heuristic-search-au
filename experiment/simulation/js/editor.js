@@ -1,3 +1,6 @@
+
+
+
 var nodes = graph.nodes;
 var textArea = document.getElementById('editor');
 var maxNodesNumber = 15;
@@ -19,12 +22,12 @@ function updateTextArea() {
     textArea.value = s;
 }
 
-function resetTextArea(){
-    textArea.value = '';
+// function resetTextArea(){
+//     textArea.value = '';
     
-    // delete all nodes
-    nodes.clear();
-}
+//     // delete all nodes
+//     nodes.clear();
+// }
 
 
 function updateGraph() {
@@ -55,7 +58,7 @@ function updateGraph() {
     }
     // connect all nodes randomly
     var edges = [];
-    for (var i = 0; i < size; i++) {
+    for ( i = 0; i < size; i++) {
         for (var j = i + 1; j < size; j++) {
             edges.push({
                 from: i,
@@ -81,7 +84,7 @@ var timer = null;
 $("#editor").keyup(function (e) {
     // check if backspace
     if (e.which == 8) {
-        reset();
+        // reset();
         updateGraph();
     }
     clearTimeout(timer);
@@ -104,7 +107,7 @@ graphNetwork.on('dragEnd', function (params) {
             x: Math.trunc(params.pointer.canvas.x),
             y: Math.trunc(params.pointer.canvas.y)
         });
-        updateTextArea();
+        //updateTextArea();
         // update edges label
         var edges = graph.edges.get({
             filter: function (edge) {
@@ -130,16 +133,7 @@ graphNetwork.on('dragEnd', function (params) {
 
 
 function smallGraph() {
-    // textArea.value = '7\n' +
-    // '169 113\n' +
-    // '-156 77\n' +
-    // '-67 -149\n' +
-    // '45 21\n' +
-    // '132 -111\n' +
-    // '-88 -28\n' +
-    // '0 -37\n' +
-    // '-194 -91\n' +
-    // '-64 -208\n' ;
+    
    
         
     updateGraph();

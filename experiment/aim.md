@@ -1,3 +1,3 @@
 ## Aim of the experiment
 
-Solving the TSP using heuristic search algorithms.
+To perform and visualize Heuristic Search
