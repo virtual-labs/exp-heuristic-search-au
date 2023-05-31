@@ -4,7 +4,7 @@
 ## Heuristics Search
 To find the global optimum, we randomly start from a point and look at the neighboring points. If we find a point that is better than the current one, we move in its direction. Then, we do the same for the new point until we reach a point where there’s no better one in its vicinity.
 
-## Traveling Salesman Problem (TSP) 
+## Traveling Salesman Problem (TSP) using Heuristics Search
 
 1. We consider a city as the starting and ending point. We can use any city as a starting point because the route is cyclic.
 
@@ -18,4 +18,4 @@ To find the global optimum, we randomly start from a point and look at the neigh
 
 <br>
 
-![h2.PNG](images\h2.PNG)
+![h2.PNG](images/h2.PNG)
