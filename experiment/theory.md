@@ -12,10 +12,11 @@ To find the global optimum, we randomly start from a point and look at the neigh
 
 3. Find the cost of each traversal and keep track of minimum cost and keep on updating the value of minimum cost stored value.
 
-4. In the end, return the permutation with minimum cost.
+
 
 ![h1.PNG](images/h1.PNG)
 
 <br>
+4. In the end, return the permutation with minimum cost.
 
 ![h2.PNG](images/h2.PNG)
