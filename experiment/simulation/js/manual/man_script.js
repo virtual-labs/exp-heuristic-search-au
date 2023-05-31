@@ -1,4 +1,13 @@
+const script = document.createElement('script');
 
+// Set the source attribute to the location of vis-network.min.js
+script.src = 'js/vis.min.js';
+
+// Set the script type
+script.type = 'text/javascript';
+
+// Append the script element to the document's head or body
+document.head.appendChild(script);
 var treeContainer = document.getElementById('tree');
 var graphContainer = document.getElementById('graph');
 

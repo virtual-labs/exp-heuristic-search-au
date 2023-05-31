@@ -19,11 +19,7 @@
     
     <div class="main-column">
         <div class="headinfo">
-            
-       
-       
-
-                
+                       
         </div>
         <div class="fle">
         <div id="boxx">
@@ -60,6 +56,13 @@
                 console.log('Label clicked!');
             });
         });
+        document.getElementById("startNodeInput").addEventListener("keyup", function(event) {
+            if (event.keyCode === 8) {
+                event.preventDefault();
+                // reset
+                resetOnlyResult();
+            }
+        });
     </script>
     
       
@@ -67,7 +70,7 @@
         
   
         <div class="btn1">
-            <div class="btn green" onclick="solvePlanar(solveBranchAndBound);">Solve</div>
+            <div class="btn green" id="submitbtn" onclick="solvePlanar(solveBranchAndBound);">Solve</div>
             <div class="btn red" style="margin-right: 0;" onclick="stopAnimation(); reset();">Reset</div>
         </div>                
         
