@@ -1,21 +1,45 @@
 
 # Theory
 
-## Heuristics Search
-To find the global optimum, we randomly start from a point and look at the neighboring points. If we find a point that is better than the current one, we move in its direction. Then, we do the same for the new point until we reach a point where there’s no better one in its vicinity.
+<h3> Heuristics Search</h3>
+<p>Heuristics are used in situations in which there is the requirement of a short-term solution. On facing complex situations with limited resources and time, Heuristics can help  to make a quick decisions by shortcuts and approximated calculations.</p>
 
-## Traveling Salesman Problem (TSP) using Heuristics Search
+<h4>Traveling Salesman Problem (TSP) using Heuristics Search</h4>
+<ol>
+<li><b>Initialization:</b></li>
+<ul><li> Start at any city as the initial node.</li>
+</ul>
 
-1. We consider a city as the starting and ending point. We can use any city as a starting point because the route is cyclic.
+<li><b>Node Exploration:</b></li>
+<ul><li> From the current city, explore neighboring cities (other cities that haven't been visited yet). These neighboring cities represent the immediate options or choices available from the current location.
 
-2. start traversing from the source to its adjacent nodes.
+</li>
+</ul>
+<li><b>Heuristic Evaluation:</b></li>
+<ul><li> Evaluate each neighboring city based on a heuristic function. This function estimates the distance to travel from the current city to each neighboring city and back to the starting city. Cities with lower heuristic values (indicating shorter distances) are considered more promising options.</li>
+</ul>
+<li><b>Selection of Next Node: </b></li>
+<ul><li> Choose the neighboring city with the lowest heuristic value, indicating that it's likely to lead to a shorter overall tour.
 
-3. Find the cost of each traversal and keep track of minimum cost and keep on updating the value of minimum cost stored value.
+</li>
+</ul>
+<li><b>Move to Next Node:</b></li>
+<ul><li> Move to the selected neighboring city and repeat the process, exploring its neighbors, evaluating them based on the heuristic function, and selecting the next city to move to.</li>
+</ul>
+<li><b>Termination: </b></li>
+<ul><li>  Continue this process until all cities have been visited once, forming a complete tour, or until no more promising paths are available.</li>
+</ul>
 
-4. In the end, return the permutation with minimum cost.
+
+
+<h5>Example :Nearest Neighbor Heuristic for TSP </h5>
+<ul>
+<li>step1 , initialization is being performed </li></ul>
 
 ![h1.PNG](images/h1.PNG)
 
 <br>
+<ul>
+<li>step1 -step2 , loop </li></ul>
 
 ![h2.PNG](images/h2.PNG)
