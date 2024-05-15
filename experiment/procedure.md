@@ -14,22 +14,22 @@
 
 <br>
 
-![h3.PNG](\exp-heuristic-search\experiment\images\h3.PNG)
+![h3.PNG](./images/h3.PNG)
 
 <br>
 
-![h4.PNG](\exp-heuristic-search\experiment\images\h4.PNG)
+![h4.PNG](../experiment/images/h4.PNG)
 
 ### Manual
 
 <br>
 
-![hm1.PNG](\exp-heuristic-search\experiment\images\hm1.PNG)
+![hm1.PNG](../experiment/images/hm1.PNG)
 
 <br>
 
-![hm2.PNG](\exp-heuristic-search\experiment\images\hm2.PNG)
+![hm2.PNG](../experiment/images/hm2.PNG)
 
 <br>
 
-![hm3.PNG](\exp-heuristic-search\experiment\images\hm3.PNG)
+![hm3.PNG](../experiment/images/hm3.PNG)
