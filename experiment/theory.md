@@ -37,10 +37,12 @@
 <ul>
 <li>step1 , initialization is being performed </li></ul>
 
-![h1.PNG](images/h1.PNG)
+<img src="images/h1.PNG" alt="h2">
+
 <br>
 <ul>
 <li>step1 -step2 , loop </li></ul>
 </br>
 
-![h2.PNG](images/h2.PNG)
+<img src="images/h2.PNG" alt="h2">
+
