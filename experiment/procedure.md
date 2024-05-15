@@ -13,23 +13,28 @@
 ### Random
 
 <br>
+<P> Click the "Random" button
+<img src="images/h3.PNG" alt="h3">
 
-![h3.PNG](./images/h3.PNG)
 
 <br>
+<p>Enter the number of nodes and start node , click solve button </p>
+<img src="images/h4.PNG" alt="h4">
 
-![h4.PNG](../experiment/images/h4.PNG)
 
 ### Manual
 
 <br>
+<p>Click the "Manual" button</p>
+<img src="images/hm1.PNG" alt="hm1">
 
-![hm1.PNG](../experiment/images/hm1.PNG)
-
-<br>
-
-![hm2.PNG](../experiment/images/hm2.PNG)
 
 <br>
+<p>Double click to add new nodes </p>
+<img src="images/hm2.PNG" alt="hm2">
 
-![hm3.PNG](../experiment/images/hm3.PNG)
+
+<br>
+<p>Enter the source node and click on the solve button </p>
+<img src="images/hm3.PNG" alt="hm3">
+
