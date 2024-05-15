@@ -36,8 +36,11 @@
 <h5>Example :Nearest Neighbor Heuristic for TSP </h5>
 <ul>
 <li>step1 , initialization is being performed </li></ul>
+
 ![h1.PNG](images/h1.PNG)
 <br>
 <ul>
 <li>step1 -step2 , loop </li></ul>
+</br>
+
 ![h2.PNG](images/h2.PNG)
