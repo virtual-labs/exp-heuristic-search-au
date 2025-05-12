@@ -1,7 +1,7 @@
 
-# Theory
+### Theory
 
-<h3> Heuristics Search</h3>
+<h4> Heuristics Search</h4>
 <p>Heuristics are used in situations in which there is the requirement of a short-term solution. On facing complex situations with limited resources and time, Heuristics can help  to make a quick decisions by shortcuts and approximated calculations.</p>
 
 
