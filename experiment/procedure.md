@@ -1,4 +1,4 @@
-## Procedure
+### Procedure
 
 1. There are two modes: Random and Manual. By default, the Random mode loads a random graph.
 2. "Number of nodes" refers to the count of nodes displayed in the graph.
@@ -10,7 +10,7 @@
 8. The algorithm will begin running and show the graph method and the tree method on the canvas.
 9. To create another graph, click the "Reset" button. This will clear everything, allowing the user to create a new graph.
 
-### Random
+#### Random
 
 <br>
 <P> Click the "Random" button
@@ -22,7 +22,7 @@
 <img src="images/h4.PNG" alt="h4">
 
 
-### Manual
+#### Manual
 
 <br>
 <p>Click the "Manual" button</p>
