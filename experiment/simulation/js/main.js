@@ -1,1 +1,6 @@
-//Your JavaScript goes in here
+function randomInt(a, b) {
+    return parseInt(Math.random() * (b-a) + a);
+}
+
+
+  

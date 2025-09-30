@@ -1,13 +1,163 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<!-- Add CSS at the head of HTML file -->
-    <link rel="stylesheet" href="./css/main.css">
+    <meta charset="UTF-8"/>
+    <title>Index page</title>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/vis.min.js"></script>
+    <script type="text/javascript" src="js/queue.js"></script>
+    <script type="text/javascript" src="js/options.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&subset=cyrillic" rel="stylesheet" referrerpolicy="origin">
+
+    <link href="css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-		<!-- Your code goes here-->
+    
+    <div class="main-column">
+        <div class="headinfo">
+                       
+        </div>
+        <div class="fle">
+        <div id="boxx">
+            <div class="story">
+                <h3>Instructions</h3>
+                <div class="instructions-container">
+                    <p class="highlight">In this simulation, a salesman needs to visit a number of cities using the shortest path.enter number of cities to start the simulation</p>
+                    <p id="second-instruction" style="display:none;">Please enter a starting city for the salesman's journey.</p>
+                    <p id="third-instruction" style="display:none;">Click the solve button to find the shortest path.</p>
+                </div>
+            </div>
+          
+            <div class="rm">
+                <div class ="ran">
+                   <input type="radio" onchange="window.location.href='./index.html'" name="mode" id="random" value="random" checked></input>
+                    <label for="random">
+                        
+                        Random</a>
+                    </label>
+                </div>
+                <div class ="man">
+                   <input type="radio" name="mode" onchange="window.location.href='./manual.html'" id="manual" value="manual"></input>
+                    <label for="manual">
+                        
+                        Manual</a>
+                    </label>
+                </div>
+            </div>
+            <div id="s" >
+        <label for="editor" >Number of cities: </label>
+        
+        <input type ="text" id='editor' placeholder="" rows="2"></input>
+        <p id="error-message" style="display:none; color:red;">It should be more than 2</p>
+        
+        <div id="start-node-container" style="display:none;">
+            <label for="startNodeInput">Start City: </label>
+            <select id="startNodeInput" style="width: 97%;"></select>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById("editor").addEventListener("keyup", function(event) {
+            var value = this.value.trim();
+            if (value !== "") {
+                if (value < 3) {
+                    document.getElementById("error-message").style.display = "block";
+                    document.getElementById("start-node-container").style.display = "none";
+                    document.getElementById("second-instruction").style.display = "none";
+                    document.querySelector(".highlight").classList.remove("highlight");
+                    document.querySelector(".instructions-container p:first-child").classList.add("highlight");
+                } else {
+                    document.getElementById("error-message").style.display = "none";
+                    document.getElementById("start-node-container").style.display = "block";
+                    document.getElementById("second-instruction").style.display = "block";
+                    document.querySelector(".highlight").classList.remove("highlight");
+                    document.getElementById("second-instruction").classList.add("highlight");
+                }
+            } else {
+                document.getElementById("error-message").style.display = "none";
+                document.getElementById("start-node-container").style.display = "none";
+                document.getElementById("second-instruction").style.display = "none";
+                document.querySelector(".highlight").classList.remove("highlight");
+                document.querySelector(".instructions-container p:first-child").classList.add("highlight");
+            }
+        });
 
-	<!-- Add JS at the bottom of HTML file --> 
-        <script src="./js/main.js"></script>
+        document.getElementById("startNodeInput").addEventListener("change", function(event) {
+            document.getElementById("btn-container").style.display = "block";
+            document.getElementById("third-instruction").style.display = "block";
+            document.querySelector(".highlight").classList.remove("highlight");
+            document.getElementById("third-instruction").classList.add("highlight");
+        });
+    </script>
+    
+      
+        
+        
+  
+        <div class="btn1" id="btn-container" style="display:none;">
+            <div class="btn green" id="submitbtn" onclick="solvePlanar(solveBranchAndBound);">Solve</div>
+            <div class="btn red" style="margin-right: 0;" onclick="stopAnimation(); reset();">Reset</div>
+        </div>                
+        
+        <div class="name">Heuristic Search Iteration</div>
+        <div id="feedpath">
+        <div id="path Explanation"></div>
+        </div>
+
+
+     <script>
+        function clearText() {
+          document.getElementById("editor").value = ""
+          document.getElementById("startNodeInput").value = ""
+          const newTextFields = document.getElementById("newTextFields");
+
+    }
+      </script>
+
+
+
+      </div>
+        <div class="content" style="position: relative;">
+            
+           
+            
+         <div class="feed">
+            
+            <div id="shortest_path" style="position: absolute; bottom: 35px;"></div>
+            <div id="final_path" style="position: absolute; bottom: 15px;color: #138412;font-weight: 600;"></div>
+            <div id="final_length" style="position: absolute; bottom: 50px;"></div>
+           
+           
+         </div>
+            <div class="column" style="width:55%; border-right: 1px solid #af0c0c">
+                <div class="graph-title">City Map</div>
+                <div id="graph"></div>
+               
+            </div>
+            <div class="column" style="width:44%">
+                <div class="graph-title">Search Tree</div>
+                <div id="tree"></div>
+                <div id="info" class="hint left top">
+                   
+                </div>
+                
+                <div class="hint1" style=" bottom: 15px;">
+                    
+                    <!-- <span style="color:#e99528">yellow</span> - Start<br> -->
+                    <div ><span style="color:#138412 ">Green </span> - Shortest path<br></div>
+                    <div ><span style="color:#d51913">Red </span> - All Possible Paths<br></div>
+                   
+                </div>
+            </div></div>
+            <script type="text/javascript" src="js/script.js"></script>
+            <script type="text/javascript" src="js/editor.js"></script>
+            <script type="text/javascript" src="js/solver.js"></script>
+            <script>maxNodesNumber = 15; smallGraph();</script>
+        </div>
+    </div>
 </body>
 </html>

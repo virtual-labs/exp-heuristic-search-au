@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Index page</title>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/vis.min.js"></script>
+    <script type="text/javascript" src="js/queue.js"></script>
+    <script type="text/javascript" src="js/manual/man_option.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&subset=cyrillic" rel="stylesheet" referrerpolicy="origin">
+
+    <link href="css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    
+    <div class="main-column">
+        <div class="headinfo">
+            <!-- <div class="about" >Info &nbsp;
+                <i class="fa fa-info-circle" id="about-circle"style="font-size:20px;color: rgb(206, 201, 201);">
+                    <p><b>*Double Click To Add New Nodes</b><br>
+                        <b>*Click The Labels To Change The Distance</b><br></p>
+                        </i></a>
+                        </div> -->
+       
+       
+            
+
+                
+        </div>
+    
+        
+    
+        <!-- <div id="gt">
+        <div id="gr"><b>Graph shows the shortest path</b></div>
+        <div id="tr"> <b>Tree shows all the possible paths</b></div>
+        </div> -->
+        <div class="fle">
+        <div id="boxx">          
+            <div class="story">
+                <h3>The Traveling Salesman Problem</h3>
+                <p>In this simulation, a salesman needs to visit a number of cities using the shortest path.</p>
+                <p id="second-instruction" style="display:none;">Please enter a starting city for the salesman's journey.</p>
+            </div>
+            <div class="rm">
+               <!-- index.html in a radio button -->
+                <div class ="ran">
+                    <input onchange="window.location.href='./index.html'" type="radio" name="mode" id="random" value="random">
+                    <label for="random">
+                        
+                        Random</a>
+                    </label>
+</div>
+                <div class ="man">
+                     <input onchange="window.location.href='./manual.html'" type="radio" name="mode" id="manual" value="manual" checked>
+                    <label for="manual">
+                       
+                        Manual</a>
+                    </label>
+                </div>
+            </div>
+            <div id="s" >
+        <label for="editor" >Number of cities: </label>
+        
+        <input type ="text" id='editor' placeholder="Enter a number" rows="2">
+        
+        <div id="start-node-container" style="display:none;">
+            <label for="startNodeInput">Source Node: </label>
+            <input type="text" id="startNodeInput" style="width: 97%;   ">
+        </div>
+    </div>
+    
+    
+    <script>
+        document.getElementById("editor").addEventListener("keyup", function(event) {
+            if (this.value.trim() !== "") {
+                document.getElementById("start-node-container").style.display = "block";
+                document.getElementById("second-instruction").style.display = "block";
+            }
+        });
+
+        document.getElementById("startNodeInput").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                document.getElementById("btn-container").style.display = "block";
+            }
+        });
+
+
+    </script>
+    
+      
+        <div class="btn1" id="btn-container" style="display:none;">
+            <div class="btn green" id="submitbtn" onclick="solvePlanar(solveBranchAndBound);">Solve</div>
+            <div class="btn red" style="margin-right: 0;" onclick="stopAnimation(); reset();">Reset</div>
+        </div>                
+        
+        <div class="name">Heuristic Search Iteration</div>
+        <div id="feedpath">
+        <div id="path Explanation" style="overflow:scroll;height:180px;"></div>
+        </div>
+     <script>
+        function clearText() {
+          document.getElementById("editor").value = ""
+          document.getElementById("startNodeInput").value = ""
+          const newTextFields = document.getElementById("newTextFields");
+
+    }
+      </script>
+      </div>
+        <div class="content" style="position: relative;">
+            
+         <div class="feed">
+            <div class="infoh">
+                <p><b>*Double Click To Add New Nodes</b><br>
+                    <b>*Click The Labels To Change The Distance</b><br></p>
+            </div>
+            
+            <div id="shortest_path" style="position: absolute; bottom: 35px;"></div>
+            <div id="final_path" style="position: absolute; bottom: 15px;color: #138412;font-weight: 600;"></div>
+            <div id="final_length" style="position: absolute; bottom: 50px;"></div>
+           
+           
+         </div>
+            <div class="column" style="width:55%; border-right: 1px solid #af0c0c">
+                
+                <!-- <div class="about left top" >About &nbsp;
+                    <i class="fa fa-info-circle" id="about-circle"style="font-size:20px;color: rgb(206, 201, 201);">
+                        <p><b>*Double Click To Add New Nodes</b><br>
+                            <b>*Click The Labels To Change The Distance</b><br></p>
+                            </i></a> -->
+                    <!-- <b>DoubleClick</b> - add point <br> 
+                    <b>Drag</b> - nodes to change distance<br> -->
+                <!-- </div>  -->
+                <div id="graph"></div>
+               
+            </div>
+            <div class="column" style="width:44%">
+                <div id="tree"></div>
+                <div id="info" class="hint left top">
+                   
+                </div>
+                
+                <div class="hint1" style=" bottom: 15px;">
+                    
+                    <!-- <span style="color:#e99528">yellow</span> - Start<br> -->
+                    <div ><span style="color:#138412 ">Green </span>- Shortest path<br></div>
+                    <div ><span style="color:#d51913">Red </span>-All Possible Paths<br></div>
+                   
+                </div>
+            </div></div>
+            <script type="text/javascript" src="js/manual/man_script.js"></script>
+            <script type="text/javascript" src="js/manual/man_editor.js"></script>
+            <script type="text/javascript" src="js/manual/man_solver.js"></script>
+            <script>maxNodesNumber = 100; smallGraph();</script>
+        </div>
+    </div>
+</body>
+</html>
