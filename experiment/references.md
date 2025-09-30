@@ -1,10 +1,4 @@
-<h3>References</h3>
-<ul>
-<li>
 
-[vis.js]( 
-https://visjs.github.io/vis-network/docs/network/)</li>
-<li>
+- [Heuristic Methods for Solving the Traveling Salesman Problem (TSP): A Comparative Study](https://ieeexplore.ieee.org/document/10293957)
 
-[w3schools]( https://www.w3schools.com/jsref/default.asp)</li>
-</ul>
+- [Heuristic Approaches to Solve Traveling Salesman Problem](https://www.researchgate.net/publication/282245639_Heuristic_Approaches_to_Solve_Traveling_Salesman_Problem)

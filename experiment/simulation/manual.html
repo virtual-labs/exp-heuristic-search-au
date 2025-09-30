@@ -40,6 +40,11 @@
         </div> -->
         <div class="fle">
         <div id="boxx">          
+            <div class="story">
+                <h3>The Traveling Salesman Problem</h3>
+                <p>In this simulation, a salesman needs to visit a number of cities using the shortest path.</p>
+                <p id="second-instruction" style="display:none;">Please enter a starting city for the salesman's journey.</p>
+            </div>
             <div class="rm">
                <!-- index.html in a radio button -->
                 <div class ="ran">
@@ -58,27 +63,28 @@
                 </div>
             </div>
             <div id="s" >
-        <label for="editor" >Number of Nodes </label>
+        <label for="editor" >Number of cities: </label>
         
-        <input type ="text" id='editor' placeholder="Enter no: nodes" rows="2">
+        <input type ="text" id='editor' placeholder="Enter a number" rows="2">
         
-        <label for="startNodeInput">Source Node: </label>
-        <input type="text" id="startNodeInput" style="width: 97%;   ">
+        <div id="start-node-container" style="display:none;">
+            <label for="startNodeInput">Source Node: </label>
+            <input type="text" id="startNodeInput" style="width: 97%;   ">
+        </div>
     </div>
     
     
     <script>
-        document.querySelectorAll('label').forEach(function(label) {
-            label.addEventListener('click', function() {
-                console.log('Label clicked!');
-            });
+        document.getElementById("editor").addEventListener("keyup", function(event) {
+            if (this.value.trim() !== "") {
+                document.getElementById("start-node-container").style.display = "block";
+                document.getElementById("second-instruction").style.display = "block";
+            }
         });
 
         document.getElementById("startNodeInput").addEventListener("keyup", function(event) {
-            if (event.keyCode === 8) {
-                event.preventDefault();
-                // reset
-                resetOnlyResult();
+            if (event.keyCode === 13) {
+                document.getElementById("btn-container").style.display = "block";
             }
         });
 
@@ -86,14 +92,14 @@
     </script>
     
       
-        <div class="btn1">
+        <div class="btn1" id="btn-container" style="display:none;">
             <div class="btn green" id="submitbtn" onclick="solvePlanar(solveBranchAndBound);">Solve</div>
             <div class="btn red" style="margin-right: 0;" onclick="stopAnimation(); reset();">Reset</div>
         </div>                
         
         <div class="name">Heuristic Search Iteration</div>
         <div id="feedpath">
-        <div id="path Explanation" style="overflow:scroll;height:250px;"></div>
+        <div id="path Explanation" style="overflow:scroll;height:180px;"></div>
         </div>
      <script>
         function clearText() {
@@ -113,7 +119,7 @@
             </div>
             
             <div id="shortest_path" style="position: absolute; bottom: 35px;"></div>
-            <div id="final_path" style="position: absolute; bottom: 15px;"></div>
+            <div id="final_path" style="position: absolute; bottom: 15px;color: #138412;font-weight: 600;"></div>
             <div id="final_length" style="position: absolute; bottom: 50px;"></div>
            
            

@@ -1,14 +1,15 @@
 
 var nodes = graph.nodes;
 var textArea = document.getElementById('editor');
-document.getElementById("editor").disabled = true;
+document.getElementById("editor").disabled = false;
 
-var maxNodesNumber = 100;
+var maxNodesNumber = 10;
+const cityNames = ["Tokyo", "Delhi", "Shanghai", "Sao Paulo", "Mumbai", "Mexico City", "Beijing", "Osaka", "Cairo", "New York", "Dhaka", "Karachi", "Buenos Aires", "Kolkata", "Istanbul"];
 
 textArea.addEventListener("input", function (event) {
     let value = event.target.value;
     let popup = document.getElementById("popup");
-    if (isNaN(value) || value < 1 || value >= 100) {
+    if (isNaN(value) || value < 1 || value > 10) {
         event.target.value = "";
         event.preventDefault();
 
@@ -18,7 +19,7 @@ textArea.addEventListener("input", function (event) {
             popup.innerHTML = `
           <div class="overlay">
             <div class="popup">
-              <h2>Enter a numeric value between 1 and 100</h2>
+              <h2>Enter a numeric value between 1 and 10</h2>
               <a class="close" href="#popup">&times;</a>
             </div>
           </div>
@@ -91,7 +92,7 @@ function updateGraph() {
         }
         nodes.add({
             id: i,
-            label: '' + String.fromCharCode(65 + i),
+            label: String.fromCharCode(65 + i) + '\n' + cityNames[i],
             x: x,
             y: y
         })
@@ -123,7 +124,14 @@ function updateGraph() {
 
     });
 
-
+    const startNodeInput = document.getElementById("startNodeInput");
+    startNodeInput.innerHTML = "";
+    for (let i = 0; i < size; i++) {
+        const option = document.createElement("option");
+        option.value = cityNames[i];
+        option.text = cityNames[i];
+        startNodeInput.appendChild(option);
+    }
 
 }
 
@@ -175,7 +183,7 @@ graphNetwork.on('doubleClick', function doubleClick(params) {
     if (params.nodes.length === 0 && params.edges.length === 0 && nodes.length < maxNodesNumber) {
         nodes.add({
             id: nodes.length,
-            label: '' + String.fromCharCode(65 + nodes.length),
+            label: String.fromCharCode(65 + nodes.length) + '\n' + cityNames[nodes.length],
             x: Math.trunc(params.pointer.canvas.x),
             y: Math.trunc(params.pointer.canvas.y)
         });

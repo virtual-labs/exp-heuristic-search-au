@@ -101,7 +101,7 @@ var graphOptions = {
             face: 'Roboto',
             strokeWidth: 0,
             align: 'center',
-            vadjust: -30
+            vadjust: -35
         },
         shape: 'dot',
         size: 12
