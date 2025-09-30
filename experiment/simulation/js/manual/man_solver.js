@@ -3,7 +3,26 @@ var info = document.getElementById('info');
 var dist;
 var path = '';
 
-//let originalGraph
+const simulationState = {
+    INITIAL: 'initial',
+    RUNNING: 'running',
+    PAUSED: 'paused',
+    FINISHED: 'finished'
+};
+
+let currentState = simulationState.INITIAL;
+
+let simulation = {
+    queue: null,
+    states: [],
+    idCounter: 1,
+    result: { length: Infinity },
+    finalShortestPath: { length: Infinity, path: [] },
+    d: null
+};
+
+document.getElementById('nextbtn').addEventListener('click', nextStep);
+
 
 function approximate(path, n, d) {
     if (path.length === n) {
@@ -55,19 +74,15 @@ function nextState(state, next, n, d) {
     return nextState;
 }
 
-function solvePlanar(solver) {  
-    
-    // deep copy javascript object
-    // originalGraph = JSON.parse(JSON.stringify(graph))
-
+function solvePlanar(solver) {
     orignalEdges = new Array(graph.edges.length);
     graph.edges.forEach(element => {
         orignalEdges.push(element);
     });
-    path='';
+    path = '';
     var nodes = graph.nodes;
     var n = nodes.length;
-    var d = new Array(n);
+    simulation.d = new Array(n);
 
     const startNodeInput = document.getElementById("startNodeInput");
     let popup1 = document.getElementById("popup1");
@@ -99,9 +114,10 @@ function solvePlanar(solver) {
         startNodeInput.focus();
         return;
     }
-     startNodeInput.value = startNodeInput.value.toUpperCase();
-     startNodeInput.value = startNodeInput.value.charCodeAt(0) - 65;
-    if (startNodeInput.value < 0 || startNodeInput.value >= n) {
+
+    const startIndex = cityNames.indexOf(startNodeInput.value);
+
+    if (startIndex < 0 || startIndex >= n) {
         if (!popup1) {
             popup1 = document.createElement("div");
             popup1.id = "popup1";
@@ -127,36 +143,32 @@ function solvePlanar(solver) {
             popup1.style.display = "block";
         }
         startNodeInput.focus();
-        return ;
+        return;
     }
-    for ( let i = 0; i < n; i++) {
-        d[i] = new Array(n);
-        // Set all intitial to zero
+
+    for (let i = 0; i < n; i++) {
+        simulation.d[i] = new Array(n);
         for (let j = 0; j < n; j++) {
-            d[i][j] = 0;
+            simulation.d[i][j] = 0;
         }
     }
 
     for (let i = 0; i < n; i++) {
-        graph.edges.forEach( (element) => {
+        graph.edges.forEach((element) => {
             if (i == element.from) {
-                d[i][element.to] = parseInt(element.label)
+                simulation.d[i][element.to] = parseInt(element.label)
             }
         })
     }
-  
+
     for (let i = 0; i < n; i++) {
-        for( let j = 0; j < n; j++) {
-            if(d[i][j] != 0) {
-                d[j][i] = d[i][j]
+        for (let j = 0; j < n; j++) {
+            if (simulation.d[i][j] != 0) {
+                simulation.d[j][i] = simulation.d[i][j]
             }
         }
     }
-    solver(n, d);
-    updateTextArea1()
-}
-function updateTextArea1() {
-    startNodeInput.value = String.fromCharCode(parseInt(startNodeInput.value) + 65);
+    solver(n, simulation.d, startIndex);
 }
 
 function reset() {
@@ -166,216 +178,146 @@ function reset() {
     info.innerHTML = '';
     nodes.clear();
     clearText();
-    document.getElementById("shortest_path").innerHTML = "";   
-    document.getElementById('path Explanation').innerHTML = '';
-    location.reload();
-}
-
-function resetOnlyResult() {
-    window.alert("The graph will be reseted.")
-    tree.nodes.clear();
-    tree.edges.clear();
-    graph.edges.clear();
-    info.innerHTML = '';
-    nodes.clear();
-    clearText();
     document.getElementById("shortest_path").innerHTML = "";
-    updateTextArea();
     document.getElementById('path Explanation').innerHTML = '';
     location.reload();
 }
 
-const nodesData = tree.nodes._data;
-let distances = "";
-for (const nodeId in nodesData) {
-    if (nodesData.hasOwnProperty(nodeId)) {
-        distances += `<p>Node ${nodeId}: ${nodesData[nodeId].distance}</p>`;
-    }
-}
-
-function disableButton() {
-    //disable click
-     document.getElementById("submitbtn").onclick = function () { return false; };
-     
-     document.getElementById("submitbtn").style.backgroundColor = "#808080";
- 
-    
- }
-function solveBranchAndBound(n, d) {
+function solveBranchAndBound(n, d, startNodeIndex) {
     disableButton();
-   let startNode = document.getElementById("startNodeInput").value
-
-    const intialnode = graph.nodes._data[startNode]
 
     stopAnimation();
-    // reset();
-    let finalShortestPath = { length: Infinity, path: [] };
-    var queue = new TinyQueue([], function (a, b) {
+
+    simulation.queue = new TinyQueue([], function (a, b) {
         if (a.approximation < b.approximation) return -1;
         if (a.approximation > b.approximation) return +1;
         return 0;
     });
+
     var initial = {
-        id: intialnode.id,
-        prevId: 0,
-        path: [intialnode.id],
+        id: startNodeIndex,
+        prevId: startNodeIndex,
+        path: [startNodeIndex],
         length: 0,
-        approximation: approximate([0], n, d)
+        approximation: approximate([startNodeIndex], n, d)
     };
-    var idCounter = 1;
-    queue.push(initial);
-    var result = { length: Infinity };
-    var delay = 0;
+
+    simulation.idCounter = 1;
+    simulation.queue.push(initial);
+    simulation.result = { length: Infinity };
+    simulation.states = [initial];
+
+    const initialNode = graph.nodes.get(startNodeIndex);
+
     tree.nodes.add({
         id: initial.id,
         state: initial,
-        x: intialnode.x,
-        y: intialnode.y,
+        x: initialNode.x,
+        y: initialNode.y,
         distance: 0,
         color: treeRoot,
-        label: ''+String.fromCharCode(65+initial.id)
+        label: String.fromCharCode(65 + initial.id) + "\n" + cityNames[initial.id]
     });
-    var states = [initial];
-    while (queue.length > 0) {
-        var current = queue.peek();
-        if (current.approximation >= result.length - 1e-9) break;
-        queue.pop();
+
+    currentState = simulationState.RUNNING;
+}
+
+function nextStep() {
+    if (currentState !== simulationState.RUNNING) return;
+
+    if (simulation.queue.length > 0) {
+        var current = simulation.queue.peek();
+
+        if (current.approximation >= simulation.result.length - 1e-9) {
+            currentState = simulationState.FINISHED;
+            showResultPath(simulation.finalShortestPath);
+            return;
+        }
+
+        simulation.queue.pop();
         current.used = true;
+
         if (current.id !== current.prevId) {
-            setTimeout(function (state) {
-                displayState(state);
-                var from = graph.nodes.get(state.prevId);
-                var to = graph.nodes.get(state.id);
-                try{
-                // dist = Math.sqrt((from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y));
+            displayState(current);
+            var from = graph.nodes.get(current.prevId);
+            var to = graph.nodes.get(current.id);
+            try {
                 orignalEdges.forEach((element) => {
-                    if(element.from == from.id && element.to == to.id) {
+                    if (element.from == from.id && element.to == to.id) {
                         dist = parseInt(element.label)
-                    }})
-                }catch(e){
+                    }
+                })
+            } catch (e) {
                 dist = 10;
-                }
-                var position = treeNetwork.getPositions([state.prevId])[state.prevId];
-                var x = position.x + randomInt(-dist, dist);
-                var y = position.y + randomInt(-dist, dist);
-                tree.nodes.add({
-                    id: state.id,
-                    state: state,
-                    x: x,
-                    y: y,
-                    distance: dist,
-                    label: '' + String.fromCharCode(65+state.path[state.path.length - 1])
-                });
-                tree.edges.add({
-                    from: state.id,
-                    to: state.prevId,
-                });
-            }, delay, current);          
-            delay += 2000;
-        }
-
-        if (current.path.length === n) {
-            if (current.length < result.length) {
-                setTimeout(
-                    function (state) {
-                        var start = state.id;
-                        while (state.prevId !== state.id) {
-                            tree.edges.update({
-                                from: state.id,
-                                to: state.prevId,
-                                color: treeResultEdge
-                            });
-                            tree.nodes.update({ id: state.id, color: treeResult });
-                            state = states[state.prevId];
-                        }
-                        tree.nodes.update({ id: start, color: treeResultTail });
-                    },
-                    delay,
-                    current
-                );
-                result = current;
-                finalShortestPath.length = current.length;
-                finalShortestPath.path = current.path;
             }
-            continue;
+            var position = treeNetwork.getPositions([current.prevId])[current.prevId];
+            var x = position.x + randomInt(-dist, dist);
+            var y = position.y + randomInt(-dist, dist);
+            tree.nodes.add({
+                id: current.id,
+                state: current,
+                x: x,
+                y: y,
+                distance: dist,
+                label: '' + String.fromCharCode(65 + current.path[current.path.length - 1]) + "\n" + cityNames[current.path[current.path.length - 1]]
+            });
+            tree.edges.add({
+                from: current.id,
+                to: current.prevId,
+            });
         }
-        var unused = [];
-        for (var i = 0; i < n; i++) if (current.path.indexOf(i) === -1) unused.push(i);
-        for (var j = 0; j < unused.length; j++) {
-            var next = unused[j];
-            var state = nextState(current, next, n, d);
-            state.id = idCounter++;
-            state.prevId = current.id;
-            queue.push(state);
-            states.push(state);
-            // tree.nodes.add({id: state.id});
-            // tree.edges.add({from: current.id, to: state.prevId});
-        }
-    }
 
-
-   
-    setTimeout(displayState, delay, result);
-    for ( i = 0; i < states.length; i++) {
-        var state = states[i];
-        if (state.used && state.id != result.id) {
-            setTimeout(function (state) {
-                var inEdges = tree.edges.get().filter(function (edge) {
-                    return edge.to === state.id;
-                });
-                if (inEdges.length === 0) {
-                    tree.nodes.update({ id: state.id, color: treeBad });
+        if (current.path.length === graph.nodes.length) {
+            if (current.length < simulation.result.length) {
+                var start = current.id;
+                let tempState = current;
+                while (tempState.prevId !== tempState.id) {
+                    tree.edges.update({
+                        from: tempState.id,
+                        to: tempState.prevId,
+                        color: treeResultEdge
+                    });
+                    tree.nodes.update({ id: tempState.id, color: treeResult });
+                    tempState = simulation.states[tempState.prevId];
                 }
-            }, delay, state);
+                tree.nodes.update({ id: start, color: treeResultTail });
+
+                simulation.result = current;
+                simulation.finalShortestPath.length = current.length;
+                simulation.finalShortestPath.path = current.path;
+            }
+        } else {
+            var unused = [];
+            for (var i = 0; i < graph.nodes.length; i++) if (current.path.indexOf(i) === -1) unused.push(i);
+            for (var j = 0; j < unused.length; j++) {
+                var next = unused[j];
+                var state = nextState(current, next, graph.nodes.length, simulation.d);
+                state.id = simulation.idCounter++;
+                state.prevId = current.id;
+                simulation.queue.push(state);
+                simulation.states.push(state);
+            }
         }
+    } else {
+        currentState = simulationState.FINISHED;
+        showResultPath(simulation.finalShortestPath);
     }
-    setTimeout(showResultPath, delay, finalShortestPath);
+}
 
-  
-
+function disableButton() {
+    document.getElementById("submitbtn").onclick = function () { return false; };
+    document.getElementById("submitbtn").style.backgroundColor = "#808080";
 }
 
 function showResultPath(data) {
     displayPath(data.path);
     var path_to_char = data.path.map(function (x) {
-        return String.fromCharCode(65 + x);
+        return String.fromCharCode(65 + x) + "(" + cityNames[x] + ")";
     });
-    
+
     document.getElementById('final_path').innerHTML = '<b>Shortest-Path:</b> ' + path_to_char.join('<-> ');
     document.getElementById('final_length').innerHTML = '<b>Nodes count:</b> ' + data.path.length;
-    // document.getElementById('final_distance').innerHTML = '<b>Distance:</b> ' + tree.nodes[1];
-
-
 }
-
-function getPath(start, next) {
-    var path = [];
-    var v = start;
-    do {
-        path.push(v);
-        v = next[v];
-    } while (v !== start);
-    return path;
-}
-
-function reverse(start, finish, next) {
-    var p = next[start];
-    var prev = start;
-    do {
-        var ne = next[p];
-        next[p] = prev;
-        prev = p;
-        p = ne;
-    } while (prev !== finish);
-}
-
-
-treeNetwork.on('click', function (param) {
-    if (param.nodes.length > 0) {
-        var state = tree.nodes.get(param.nodes[0]).state;
-        displayState(state);
-    }
-});
 
 function displayPath(path) {
     graph.edges.clear();
@@ -385,40 +327,40 @@ function displayPath(path) {
         var to = graph.nodes.get(path[(i + 1) % n]);
         let label
         orignalEdges.forEach((element) => {
-            if((element.from == from.id && element.to == to.id) || (element.to == from.id && element.from == to.id) ) {
+            if ((element.from == from.id && element.to == to.id) || (element.to == from.id && element.from == to.id)) {
                 label = element.label
-            }})
+            }
+        })
         graph.edges.add({
             from: path[i],
             to: path[(i + 1) % n],
-            label : label
+            label: label
         });
     }
 }
 
 function displayState(state) {
-    displayPath(state.path);    
+    displayPath(state.path);
     var startNode;
-    var startPath="";
+    var startPath = "";
     var neighbourPath = "";
-    startNode = String.fromCharCode(65 + state.path[0]);  
-    startPath += "Start Node: "+startNode ;    
+    startNode = String.fromCharCode(65 + state.path[0]) + "(" + cityNames[state.path[0]] + ")";
+    startPath += "Start Node: " + startNode;
     document.getElementById('path Explanation').innerHTML = startPath;
-    for (let i = 0; i < state.path.length; i++) {                     
-        graph.edges.forEach(element => {    
-            //if the neighbourPath undefined
-            if(element.from == state.path[i] && element.to == state.path[(i + 1) % state.path.length]){
-                from = String.fromCharCode(65 + element.from);
-                to =  String.fromCharCode(65 + element.to);
+    for (let i = 0; i < state.path.length; i++) {
+        graph.edges.forEach(element => {
+            if (element.from == state.path[i] && element.to == state.path[(i + 1) % state.path.length]) {
+                from = String.fromCharCode(65 + element.from) + "(" + cityNames[element.from] + ")";
+                to = String.fromCharCode(65 + element.to) + "(" + cityNames[element.to] + ")";
                 neighbourPath = document.createElement('div')
-                neighbourPath.innerHTML = " H("+ from +","+ to +") = " +element.label;
-             
+                neighbourPath.innerHTML = " H(" + from + "," + to + ") = " + element.label;
+
             }
-   
+
         });
-        document.getElementById('path Explanation').append(neighbourPath)   
-       document.getElementById('shortest_path').innerHTML = '<b>Shortest Distance:</b> ' + state.length.toFixed(3)+ '<br>';
- 
+        document.getElementById('path Explanation').append(neighbourPath)
+        document.getElementById('shortest_path').innerHTML = '<b>Shortest Distance:</b> ' + state.length.toFixed(3) + '<br>';
+
     }
 
 }
@@ -432,4 +374,6 @@ function stopAnimation() {
     }
 }
 
-
+function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}

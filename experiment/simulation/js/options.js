@@ -31,7 +31,7 @@ var treeOptions = {
         chosen: true,
         font: {
             color: '#FFFFFF',
-            size: 18, // px
+            size: 12, // px
             face: 'Roboto',
             background: '#343434',
             strokeWidth: 0,
@@ -48,7 +48,7 @@ var treeOptions = {
         borderWidthSelected: 3,
         font: {
             color: '#343434',
-            size: 18,
+            size: 14,
             face: 'Roboto',
             strokeWidth: 0,
             align: 'center',
@@ -80,7 +80,7 @@ var treeOptions = {
         chosen: true,
         font: {
             color: '#FFFFFF',
-            size: 8, // px
+            size: 6, // px
             face: 'Roboto',
             background: 'rgba(0, 0, 0, 0.5)',
             strokeWidth: 0,
@@ -97,11 +97,11 @@ var treeOptions = {
         borderWidthSelected: 3,
         font: {
             color: '#343434',
-            size: 16,
+            size: 12,
             face: 'Roboto',
             strokeWidth: 0,
             align: 'center',
-            vadjust: -30
+            vadjust: -35
         },
         shape: 'dot',
         size: 12

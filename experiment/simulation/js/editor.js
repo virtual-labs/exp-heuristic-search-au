@@ -1,18 +1,32 @@
 
 
 
+
+
+
+
 var nodes = graph.nodes;
 var textArea = document.getElementById('editor');
-var maxNodesNumber = 15;
+var maxNodesNumber = 10;
+const cityNames = ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata", "Surat", "Pune", "Jaipur", "Lucknow", "Kanpur", "Nagpur", "Indore", "Thane"];
 
 window.onload = function() {
     let textarea = document.getElementById('editor');
-    textarea.value = Math.floor(Math.random() * 10) + 4; // generate a random number between 1 and 15
-    textarea.setAttribute("readonly", true); // make the textarea read-only
     updateGraph();
   };
   
 
+$('#editor').on('input', function() {
+    if ($(this).val() > 10) {
+        $(this).val(10);
+    }
+});
+
+$('#editor').on('blur', function() {
+    if ($(this).val() < 3) {
+        $(this).val(3);
+    }
+});
   
 
 function updateTextArea() {
@@ -51,7 +65,7 @@ function updateGraph() {
         }
         nodes.add({
             id: i,
-            label: ''+String.fromCharCode(65+i),
+            label: String.fromCharCode(65+i) + '\n' + cityNames[i],
             x: x,
             y: y
         })
@@ -63,7 +77,7 @@ function updateGraph() {
             edges.push({
                 from: i,
                 to: j,
-                label: ''+Math.round(Math.sqrt(Math.pow(nodes.get(i).x - nodes.get(j).x, 2) + Math.pow(nodes.get(i).y - nodes.get(j).y, 2))),
+                label: '' + Math.round(Math.sqrt(Math.pow(nodes.get(i).x - nodes.get(j).x, 2) + Math.pow(nodes.get(i).y - nodes.get(j).y, 2))),
             });
         }
     }
@@ -76,7 +90,14 @@ function updateGraph() {
         animation: false
     });
     
-
+    const startNodeInput = document.getElementById("startNodeInput");
+    startNodeInput.innerHTML = "";
+    for (let i = 0; i < size; i++) {
+        const option = document.createElement("option");
+        option.value = cityNames[i];
+        option.text = cityNames[i];
+        startNodeInput.appendChild(option);
+    }
 }
 
 var timer = null;
@@ -90,7 +111,8 @@ $("#editor").keyup(function (e) {
     clearTimeout(timer);
     if (!parseInt(String.fromCharCode(e.which))) {
         updateGraph();
-    } else {
+    }
+    else {
         timer = setTimeout(function () {
             updateGraph();
         }, 1000);
@@ -119,7 +141,7 @@ graphNetwork.on('dragEnd', function (params) {
             var to = nodes.get(edge.to);
             graph.edges.update({
                 id: edge.id,
-                label: ''+Math.round(
+                label: '' + Math.round(
                     Math.sqrt(Math.pow(from.x - to.x, 2) + 
                     Math.pow(from.y - to.y, 2))
                 ),

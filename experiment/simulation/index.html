@@ -23,7 +23,14 @@
         </div>
         <div class="fle">
         <div id="boxx">
-            
+            <div class="story">
+                <h3>Instructions</h3>
+                <div class="instructions-container">
+                    <p class="highlight">In this simulation, a salesman needs to visit a number of cities using the shortest path.enter number of cities to start the simulation</p>
+                    <p id="second-instruction" style="display:none;">Please enter a starting city for the salesman's journey.</p>
+                    <p id="third-instruction" style="display:none;">Click the solve button to find the shortest path.</p>
+                </div>
+            </div>
           
             <div class="rm">
                 <div class ="ran">
@@ -42,26 +49,48 @@
                 </div>
             </div>
             <div id="s" >
-        <label for="editor" >Number of nodes </label>
+        <label for="editor" >Number of cities: </label>
         
-        <input type ="text" id='editor' placeholder="Enter no: nodes" rows="2"></input>
+        <input type ="text" id='editor' placeholder="" rows="2"></input>
+        <p id="error-message" style="display:none; color:red;">It should be more than 2</p>
         
-        <label for="startNodeInput">Start Node: </label>
-        <input type="text" id="startNodeInput" style="width: 97%;">
+        <div id="start-node-container" style="display:none;">
+            <label for="startNodeInput">Start City: </label>
+            <select id="startNodeInput" style="width: 97%;"></select>
+        </div>
     </div>
     
     <script>
-        document.querySelectorAll('label').forEach(function(label) {
-            label.addEventListener('click', function() {
-                console.log('Label clicked!');
-            });
-        });
-        document.getElementById("startNodeInput").addEventListener("keyup", function(event) {
-            if (event.keyCode === 8) {
-                event.preventDefault();
-                // reset
-                resetOnlyResult();
+        document.getElementById("editor").addEventListener("keyup", function(event) {
+            var value = this.value.trim();
+            if (value !== "") {
+                if (value < 3) {
+                    document.getElementById("error-message").style.display = "block";
+                    document.getElementById("start-node-container").style.display = "none";
+                    document.getElementById("second-instruction").style.display = "none";
+                    document.querySelector(".highlight").classList.remove("highlight");
+                    document.querySelector(".instructions-container p:first-child").classList.add("highlight");
+                } else {
+                    document.getElementById("error-message").style.display = "none";
+                    document.getElementById("start-node-container").style.display = "block";
+                    document.getElementById("second-instruction").style.display = "block";
+                    document.querySelector(".highlight").classList.remove("highlight");
+                    document.getElementById("second-instruction").classList.add("highlight");
+                }
+            } else {
+                document.getElementById("error-message").style.display = "none";
+                document.getElementById("start-node-container").style.display = "none";
+                document.getElementById("second-instruction").style.display = "none";
+                document.querySelector(".highlight").classList.remove("highlight");
+                document.querySelector(".instructions-container p:first-child").classList.add("highlight");
             }
+        });
+
+        document.getElementById("startNodeInput").addEventListener("change", function(event) {
+            document.getElementById("btn-container").style.display = "block";
+            document.getElementById("third-instruction").style.display = "block";
+            document.querySelector(".highlight").classList.remove("highlight");
+            document.getElementById("third-instruction").classList.add("highlight");
         });
     </script>
     
@@ -69,14 +98,14 @@
         
         
   
-        <div class="btn1">
+        <div class="btn1" id="btn-container" style="display:none;">
             <div class="btn green" id="submitbtn" onclick="solvePlanar(solveBranchAndBound);">Solve</div>
             <div class="btn red" style="margin-right: 0;" onclick="stopAnimation(); reset();">Reset</div>
         </div>                
         
         <div class="name">Heuristic Search Iteration</div>
         <div id="feedpath">
-        <div id="path Explanation" style="overflow:scroll;height:250px;"></div>
+        <div id="path Explanation"></div>
         </div>
 
 
@@ -99,26 +128,18 @@
          <div class="feed">
             
             <div id="shortest_path" style="position: absolute; bottom: 35px;"></div>
-            <div id="final_path" style="position: absolute; bottom: 15px;"></div>
+            <div id="final_path" style="position: absolute; bottom: 15px;color: #138412;font-weight: 600;"></div>
             <div id="final_length" style="position: absolute; bottom: 50px;"></div>
            
            
          </div>
             <div class="column" style="width:55%; border-right: 1px solid #af0c0c">
-                
-                <!-- <div class="about left top" >haii
-                    <i class="fa fa-info-circle" id="about-circle"style="font-size:20px;color: rgb(206, 201, 201);">
-                        <p>Hill climbing is a simple heuristic search algorithm. To find the global optimum, we randomly start from a point and look at the neighboring points.
-                            If we find a point that is better than the current one, we move in its direction.
-                             Then, we do the same for the new point until we reach a point where there’s no better one in its vicinity.</p>
-                            </i></a> -->
-                    <!-- <b>DoubleClick</b> - add point <br> 
-                    <b>Drag</b> - nodes to change distance<br> -->
-                <!-- </div>  -->
+                <div class="graph-title">City Map</div>
                 <div id="graph"></div>
                
             </div>
             <div class="column" style="width:44%">
+                <div class="graph-title">Search Tree</div>
                 <div id="tree"></div>
                 <div id="info" class="hint left top">
                    

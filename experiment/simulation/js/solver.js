@@ -88,12 +88,9 @@ function solvePlanar(solver) {
         startNodeInput.focus();
         return;
     }
-    startNodeInput.value = startNodeInput.value.toUpperCase();
-    startNodeInput.value = startNodeInput.value.charCodeAt(0) - 65;
-    
-    
+    const startIndex = cityNames.indexOf(startNodeInput.value);
 
-    if (startNodeInput.value < 0 || startNodeInput.value >= n) {
+    if (startIndex < 0 || startIndex >= n) {
         if (!popup1) {
             popup1 = document.createElement("div");
             popup1.id = "popup1";
@@ -129,14 +126,7 @@ function solvePlanar(solver) {
             d[i][j] = Math.sqrt(dx * dx + dy * dy);
         }
     }
-    console.log(d)
-    //startNodeInput.value = String.fromCharCode(parseInt(startNodeInput.value) + 65);
-    solver(n, d);
-    updateTextArea();
-}
-//after solving display the startnode value in the text area
-function updateTextArea() {
-    startNodeInput.value = String.fromCharCode(parseInt(startNodeInput.value) + 65);
+    solver(n, d, startIndex);
 }
 
 function reset() {
@@ -144,7 +134,6 @@ function reset() {
     tree.nodes.clear();
     tree.edges.clear();
     graph.edges.clear();
-    //graph.node.clear();
     info.innerHTML = '';
     nodes.clear();
     
@@ -153,29 +142,17 @@ function reset() {
     
     document.getElementById('path Explanation').innerHTML = '';
     
-    updateTextArea();
     location.reload();
     
 
 }
 
-const nodesData = tree.nodes._data;
-let distances = "";
-for (const nodeId in nodesData) {
-    if (nodesData.hasOwnProperty(nodeId)) {
-        distances += `<p>Node ${nodeId}: ${nodesData[nodeId].distance}</p>`;
-    }
-}
-
-
-function solveBranchAndBound(n, d) {
+function solveBranchAndBound(n, d, startNode) {
     disableButton();
-    let startNode = document.getElementById("startNodeInput").value
 
     const intialnode = graph.nodes._data[startNode]
 
     stopAnimation();
-    // reset();
     let finalShortestPath = { length: Infinity, path: [] };
     var queue = new TinyQueue([], function (a, b) {
         if (a.approximation < b.approximation) return -1;
@@ -189,7 +166,6 @@ function solveBranchAndBound(n, d) {
         length: 0,
         approximation: approximate([0], n, d)
     };
-    // console.log(initial)
     var idCounter = 1;
     queue.push(initial);
     var result = { length: Infinity };
@@ -201,7 +177,7 @@ function solveBranchAndBound(n, d) {
         y: intialnode.y,
         distance: -80,
         color: treeRoot,
-        label: String.fromCharCode(65 + initial.id)
+        label: String.fromCharCode(65 + initial.id) + "\n" + cityNames[initial.id]
     });
     var states = [initial];
     while (queue.length > 0) {
@@ -217,18 +193,16 @@ function solveBranchAndBound(n, d) {
                 var position = treeNetwork.getPositions([state.prevId])[state.prevId];
                 var x = position.x + randomInt(-dist, dist);
                 var y = position.y + randomInt(-dist, dist);
-                console.log(x, y);
                 tree.nodes.add({
                     id: state.id,
                     state: state,
                     x: x,
                     y: y,
                     distance: dist * 0.8,
-                    label: '' + String.fromCharCode(65 + state.path[state.path.length - 1])
+                    label: '' + String.fromCharCode(65 + state.path[state.path.length - 1]) + "\n" + cityNames[state.path[state.path.length - 1]]
                 });
                 tree.edges.add({ from: state.id, to: state.prevId });
             }, delay, current);           
-             console.log(tree.nodes, tree.edges)
             delay += 2000;
             
         }
@@ -268,15 +242,9 @@ function solveBranchAndBound(n, d) {
             state.prevId = current.id;
             queue.push(state);
             states.push(state);
-            // tree.nodes.add({id: state.id});
-            // tree.edges.add({from: current.id, to: state.prevId});
         }
     }
 
-
-    // console.log('hello')
-    // console.log(dist)
-    // console.log(tree.nodes._data)
     setTimeout(displayState, delay, result);
     for (var i = 0; i < states.length; i++) {
         var state = states[i];
@@ -294,16 +262,13 @@ function solveBranchAndBound(n, d) {
     setTimeout(showResultPath, delay, finalShortestPath);
     
 }
-//disable class "btn green" button after click
 function disableButton() {
-   //disable click
     document.getElementById("submitbtn").onclick = function () { return false; };
     
     document.getElementById("submitbtn").style.backgroundColor = "#808080";
 
    
 }
-//reset all when startnode is changed
 function resetOnlyResult() {
     window.alert("The graph will be reseted.")
     tree.nodes.clear();
@@ -313,7 +278,6 @@ function resetOnlyResult() {
     nodes.clear();
     clearText();
     document.getElementById("shortest_path").innerHTML = "";
-    updateTextArea();
     document.getElementById('path Explanation').innerHTML = '';
     location.reload();
 }
@@ -324,44 +288,11 @@ function resetOnlyResult() {
 function showResultPath(data) {
     displayPath(data.path);
     var path_to_char = data.path.map(function (x) {
-        return String.fromCharCode(65 + x);
+        return String.fromCharCode(65 + x) + "(" + cityNames[x] + ")";
     });
     document.getElementById('final_path').innerHTML = '<b>Shortest-Path:</b> ' + path_to_char.join('<-> ');
     document.getElementById('final_length').innerHTML = '<b>Nodes count:</b> ' + data.path.length;
-    // document.getElementById('final_distance').innerHTML = '<b>Distance:</b> ' + tree.nodes[1];
-
-
 }
-
-function getPath(start, next) {
-    var path = [];
-    var v = start;
-    do {
-        path.push(v);
-        v = next[v];
-    } while (v !== start);
-    return path;
-}
-
-function reverse(start, finish, next) {
-    var p = next[start];
-    var prev = start;
-    do {
-        var ne = next[p];
-        next[p] = prev;
-        prev = p;
-        p = ne;
-    } while (prev !== finish);
-}
-
-
-treeNetwork.on('click', function (param) {
-    console.log('hi2');
-    if (param.nodes.length > 0) {
-        var state = tree.nodes.get(param.nodes[0]).state;
-        displayState(state);
-    }
-});
 
 function displayPath(path) {
     graph.edges.clear();
@@ -383,15 +314,14 @@ function displayState(state) {
     var startNode;
     var startPath="";
     var neighbourPath = "";
-    startNode = String.fromCharCode(65 + state.path[0]);  
+    startNode = String.fromCharCode(65 + state.path[0]) + "(" + cityNames[state.path[0]] + ")";  
     startPath += "Start Node: "+startNode ;    
     document.getElementById('path Explanation').innerHTML = startPath;
     for (let i = 0; i < state.path.length; i++) {                     
         graph.edges.forEach(element => {    
-            //if the neighbourPath undefined
             if(element.from == state.path[i] && element.to == state.path[(i + 1) % state.path.length]){
-                from = String.fromCharCode(65 + element.from);
-                to =  String.fromCharCode(65 + element.to);
+                from = String.fromCharCode(65 + element.from) + "(" + cityNames[element.from] + ")";
+                to =  String.fromCharCode(65 + element.to) + "(" + cityNames[element.to] + ")";
                 neighbourPath = document.createElement('div')
                 neighbourPath.innerHTML = " H("+ from +","+ to +") = " +element.label;
              
@@ -412,4 +342,8 @@ function stopAnimation() {
         clearTimeout(timeout);
         timeout--;
     }
+}
+
+function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
