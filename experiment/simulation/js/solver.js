@@ -1,6 +1,7 @@
 var info = document.getElementById('info');
 var dist;
 let path = '';
+
 function approximate(path, n, d) {
     if (path.length === n) {
         return 0;
@@ -57,67 +58,15 @@ function solvePlanar(solver) {
     var n = nodes.length;
     var d = new Array(n);
 
-    const startNodeInput = document.getElementById("startNodeInput");
-    const editor = document.getElementById("editor");
-    let popup1 = document.getElementById("popup1");
-    let popup2 = document.getElementById("popup2");
-    if (!startNodeInput.value) {
-        if (!popup2) {
-            popup2 = document.createElement("div");
-            popup2.id = "popup2";
+    const startNode = parseInt(document.getElementById("startCity").value);
 
-            popup2.innerHTML = `
-          <div class="overlay2">
-            <div class="popup2">
-              <h2>Please select a start node</h2>
-              <a class="close2" href="#popup2">&times;</a>
-            </div>
-          </div>
-        `;
-            document.body.appendChild(popup2);
-
-            let closePopupAnchor = popup2.querySelector(".close2");
-            closePopupAnchor.addEventListener("click", function (event) {
-                event.preventDefault();
-                startNodeInput.value = "";
-                popup2.style.display = "none";
-            });
-        } else {
-            popup2.style.display = "block";
-        }
-        startNodeInput.focus();
+    if (isNaN(startNode) || startNode < 0 || startNode >= n) {
+        alert("Please select a valid start city.");
         return;
     }
-    const startIndex = cityNames.indexOf(startNodeInput.value);
 
-    if (startIndex < 0 || startIndex >= n) {
-        if (!popup1) {
-            popup1 = document.createElement("div");
-            popup1.id = "popup1";
+    document.getElementById('heuristicIterationSection').style.display = 'block'; // Show iteration section
 
-            popup1.innerHTML = `
-            <div class="overlay1">
-
-            <div class="popup1">
-                <h2>Please select a valid start node</h2>
-                <a class="close1" href="#popup1">&times;</a>
-            </div>
-            </div>
-        `;
-            document.body.appendChild(popup1);
-
-            let closePopupAnchor = popup1.querySelector(".close1");
-            closePopupAnchor.addEventListener("click", function (event) {
-                event.preventDefault();
-                startNodeInput.value = "";
-                popup1.style.display = "none";
-            });
-        } else {
-            popup1.style.display = "block";
-        }
-        startNodeInput.focus();
-        return;
-    }
     for (var i = 0; i < n; i++) {
         d[i] = new Array(n);
         for (var j = 0; j < n; j++) {
@@ -126,49 +75,60 @@ function solvePlanar(solver) {
             d[i][j] = Math.sqrt(dx * dx + dy * dy);
         }
     }
-    solver(n, d, startIndex);
+    solver(n, d, startNode);
 }
 
 function reset() {
-    console.log("reset");
+    stopAnimation();
     tree.nodes.clear();
     tree.edges.clear();
-    graph.edges.clear();
     info.innerHTML = '';
-    nodes.clear();
-    
-    clearText();
     document.getElementById("shortest_path").innerHTML = "";
-    
     document.getElementById('path Explanation').innerHTML = '';
-    
-    location.reload();
-    
+    document.getElementById('final_path').innerHTML = '';
+    document.getElementById('heuristicIterationSection').style.display = 'none'; // Hide iteration section
+    document.getElementById('startCityContainer').style.display = 'none';
+    document.getElementById('solveResetContainer').style.display = 'none';
+    document.getElementById('numCities').removeAttribute("readonly");
+    document.getElementById('submitbtn').style.backgroundColor = '';
+    document.getElementById("submitbtn").onclick = function () { solvePlanar(solveBranchAndBound); };
+    generateGraph();
+}
 
+const nodesData = tree.nodes._data;
+let distances = "";
+for (const nodeId in nodesData) {
+    if (nodesData.hasOwnProperty(nodeId)) {
+        distances += `<p>Node ${nodeId}: ${nodesData[nodeId].distance}</p>`;
+    }
 }
 
 function solveBranchAndBound(n, d, startNode) {
     disableButton();
-
-    const intialnode = graph.nodes._data[startNode]
+    const intialnode = graph.nodes._data[startNode];
 
     stopAnimation();
-    let finalShortestPath = { length: Infinity, path: [] };
+    let finalShortestPath = {
+        length: Infinity,
+        path: []
+    };
     var queue = new TinyQueue([], function (a, b) {
         if (a.approximation < b.approximation) return -1;
         if (a.approximation > b.approximation) return +1;
         return 0;
     });
     var initial = {
-        id: intialnode.id,
+        id: 0,
         prevId: 0,
-        path: [intialnode.id],
+        path: [startNode],
         length: 0,
-        approximation: approximate([0], n, d)
+        approximation: approximate([startNode], n, d)
     };
     var idCounter = 1;
     queue.push(initial);
-    var result = { length: Infinity };
+    var result = {
+        length: Infinity
+    };
     var delay = 0;
     tree.nodes.add({
         id: initial.id,
@@ -177,7 +137,8 @@ function solveBranchAndBound(n, d, startNode) {
         y: intialnode.y,
         distance: -80,
         color: treeRoot,
-        label: String.fromCharCode(65 + initial.id) + "\n" + cityNames[initial.id]
+        label: cityNames[startNode].charAt(0),
+        title: cityNames[startNode]
     });
     var states = [initial];
     while (queue.length > 0) {
@@ -199,14 +160,17 @@ function solveBranchAndBound(n, d, startNode) {
                     x: x,
                     y: y,
                     distance: dist * 0.8,
-                    label: '' + String.fromCharCode(65 + state.path[state.path.length - 1]) + "\n" + cityNames[state.path[state.path.length - 1]]
+                    label: cityNames[state.path[state.path.length - 1]].charAt(0),
+                    title: cityNames[state.path[state.path.length - 1]]
                 });
-                tree.edges.add({ from: state.id, to: state.prevId });
-            }, delay, current);           
+                tree.edges.add({
+                    from: state.id,
+                    to: state.prevId
+                });
+            }, delay, current);
             delay += 2000;
-            
-        }
 
+        }
 
         if (current.path.length === n) {
             if (current.length < result.length) {
@@ -219,10 +183,16 @@ function solveBranchAndBound(n, d, startNode) {
                                 to: state.prevId,
                                 color: treeResultEdge
                             });
-                            tree.nodes.update({ id: state.id, color: treeResult });
+                            tree.nodes.update({
+                                id: state.id,
+                                color: treeResult
+                            });
                             state = states[state.prevId];
                         }
-                        tree.nodes.update({ id: start, color: treeResultTail });
+                        tree.nodes.update({
+                            id: start,
+                            color: treeResultTail
+                        });
                     },
                     delay,
                     current
@@ -234,7 +204,8 @@ function solveBranchAndBound(n, d, startNode) {
             continue;
         }
         var unused = [];
-        for ( i = 0; i < n; i++) if (current.path.indexOf(i) === -1) unused.push(i);
+        for (i = 0; i < n; i++)
+            if (current.path.indexOf(i) === -1) unused.push(i);
         for (var j = 0; j < unused.length; j++) {
             var next = unused[j];
             state = nextState(current, next, n, d);
@@ -254,96 +225,112 @@ function solveBranchAndBound(n, d, startNode) {
                     return edge.to === state.id;
                 });
                 if (inEdges.length === 0) {
-                    tree.nodes.update({ id: state.id, color: treeBad });
+                    tree.nodes.update({
+                        id: state.id,
+                        color: treeBad
+                    });
                 }
             }, delay, state);
         }
     }
     setTimeout(showResultPath, delay, finalShortestPath);
-    
+
 }
+
 function disableButton() {
-    document.getElementById("submitbtn").onclick = function () { return false; };
-    
+    document.getElementById("submitbtn").onclick = function () {
+        return false;
+    };
     document.getElementById("submitbtn").style.backgroundColor = "#808080";
-
-   
 }
-function resetOnlyResult() {
-    window.alert("The graph will be reseted.")
-    tree.nodes.clear();
-    tree.edges.clear();
-    graph.edges.clear();
-    info.innerHTML = '';
-    nodes.clear();
-    clearText();
-    document.getElementById("shortest_path").innerHTML = "";
-    document.getElementById('path Explanation').innerHTML = '';
-    location.reload();
-}
-
-
-   
 
 function showResultPath(data) {
     displayPath(data.path);
     var path_to_char = data.path.map(function (x) {
-        return String.fromCharCode(65 + x) + "(" + cityNames[x] + ")";
+        return cityNames[x];
     });
-    document.getElementById('final_path').innerHTML = '<b>Shortest-Path:</b> ' + path_to_char.join('<-> ');
+    document.getElementById('final_path').innerHTML = '<b>Shortest-Path:</b> ' + path_to_char.join(' -> ');
     document.getElementById('final_length').innerHTML = '<b>Nodes count:</b> ' + data.path.length;
 }
 
+function getPath(start, next) {
+    var path = [];
+    var v = start;
+    do {
+        path.push(v);
+        v = next[v];
+    } while (v !== start);
+    return path;
+}
+
+function reverse(start, finish, next) {
+    var p = next[start];
+    var prev = start;
+    do {
+        var ne = next[p];
+        next[p] = prev;
+        prev = p;
+        p = ne;
+    } while (prev !== finish);
+}
+
+
+treeNetwork.on('click', function (param) {
+    if (param.nodes.length > 0) {
+        var state = tree.nodes.get(param.nodes[0]).state;
+        displayState(state);
+    }
+});
+
 function displayPath(path) {
+    if (!path || path.length === 0) return;
     graph.edges.clear();
     var n = graph.nodes.length;
     for (var i = 0; i < n; i++) {
         var from = graph.nodes.get(path[i]);
         var to = graph.nodes.get(path[(i + 1) % n]);
-        graph.edges.add({
-            from: path[i],
-            to: path[(i + 1) % n],
-            label: Math.sqrt((from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y)).toFixed(3)
-        });
+        if (from && to) {
+            graph.edges.add({
+                from: path[i],
+                to: path[(i + 1) % n],
+                label: Math.sqrt((from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y)).toFixed(3)
+            });
+        }
     }
 }
 
-
 function displayState(state) {
-    displayPath(state.path);    
+    if (!state || !state.path) return;
+    displayPath(state.path);
     var startNode;
-    var startPath="";
+    var startPath = "";
     var neighbourPath = "";
-    startNode = String.fromCharCode(65 + state.path[0]) + "(" + cityNames[state.path[0]] + ")";  
-    startPath += "Start Node: "+startNode ;    
+    startNode = cityNames[state.path[0]];
+    startPath += "Start City: " + startNode;
     document.getElementById('path Explanation').innerHTML = startPath;
-    for (let i = 0; i < state.path.length; i++) {                     
-        graph.edges.forEach(element => {    
-            if(element.from == state.path[i] && element.to == state.path[(i + 1) % state.path.length]){
-                from = String.fromCharCode(65 + element.from) + "(" + cityNames[element.from] + ")";
-                to =  String.fromCharCode(65 + element.to) + "(" + cityNames[element.to] + ")";
+    for (let i = 0; i < state.path.length; i++) {
+        graph.edges.forEach(element => {
+            if (element.from == state.path[i] && element.to == state.path[(i + 1) % state.path.length]) {
+                from = cityNames[element.from];
+                to = cityNames[element.to];
                 neighbourPath = document.createElement('div')
-                neighbourPath.innerHTML = " H("+ from +","+ to +") = " +element.label;
-             
+                neighbourPath.innerHTML = " H(" + from + "," + to + ") = " + element.label;
+
             }
-   
+
         });
-        document.getElementById('path Explanation').append(neighbourPath)   
-       document.getElementById('shortest_path').innerHTML = '<b>Shortest Distance:</b> ' + state.length.toFixed(3)+ '<br>';
- 
+        document.getElementById('path Explanation').append(neighbourPath)
+        if (state.length) {
+            document.getElementById('shortest_path').innerHTML = '<b>Shortest Distance:</b> ' + state.length.toFixed(3) + '<br>';
+        }
     }
 
 }
 
 function stopAnimation() {
-    var timeout = setTimeout(function () {
-    }, 0);
+    var timeout = setTimeout(function () { }, 0);
     while (timeout >= 0) {
         clearTimeout(timeout);
         timeout--;
     }
-}
-
-function randomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
