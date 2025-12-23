@@ -1,15 +1,17 @@
 
 var nodes = graph.nodes;
 var textArea = document.getElementById('editor');
-document.getElementById("editor").disabled = false;
+document.getElementById("editor").disabled = true;
 
-var maxNodesNumber = 10;
-const cityNames = ["Tokyo", "Delhi", "Shanghai", "Sao Paulo", "Mumbai", "Mexico City", "Beijing", "Osaka", "Cairo", "New York", "Dhaka", "Karachi", "Buenos Aires", "Kolkata", "Istanbul"];
+var maxNodesNumber = 100;
+
+// Prefer using the shared `cityNames` array used in Random mode. Falls back to a local list if not available.
+var manualCityNames = (window.cityNames && window.cityNames.length) ? window.cityNames.slice() : ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata", "Surat", "Pune", "Jaipur", "Lucknow", "Kanpur", "Nagpur", "Indore", "Thane"];
 
 textArea.addEventListener("input", function (event) {
     let value = event.target.value;
     let popup = document.getElementById("popup");
-    if (isNaN(value) || value < 1 || value > 10) {
+    if (isNaN(value) || value < 1 || value >= 100) {
         event.target.value = "";
         event.preventDefault();
 
@@ -19,7 +21,7 @@ textArea.addEventListener("input", function (event) {
             popup.innerHTML = `
           <div class="overlay">
             <div class="popup">
-              <h2>Enter a numeric value between 1 and 10</h2>
+              <h2>Enter a numeric value between 1 and 100</h2>
               <a class="close" href="#popup">&times;</a>
             </div>
           </div>
@@ -61,6 +63,21 @@ function updateTextArea() {
     //  }
     // );
     textArea.value = s;
+    // update the start city dropdown to reflect added/removed cities
+    updateStartCitySelect();
+}
+
+function updateStartCitySelect() {
+    var sel = document.getElementById('startCitySelect');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">Select city</option>';
+    for (var i = 0; i < nodes.length; i++) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        // Prefer full names (from Random mode) and fall back to a letter if name missing
+        opt.text = (manualCityNames && manualCityNames[i]) ? manualCityNames[i] : String.fromCharCode(65 + i);
+        sel.add(opt);
+    }
 }
 
 // function resetTextArea() {
@@ -92,7 +109,8 @@ function updateGraph() {
         }
         nodes.add({
             id: i,
-            label: String.fromCharCode(65 + i) + '\n' + cityNames[i],
+            label: '' + ((manualCityNames && manualCityNames[i]) ? manualCityNames[i].charAt(0).toUpperCase() : String.fromCharCode(65 + i)),
+            title: (manualCityNames && manualCityNames[i]) ? manualCityNames[i] : String.fromCharCode(65 + i),
             x: x,
             y: y
         })
@@ -124,16 +142,12 @@ function updateGraph() {
 
     });
 
-    const startNodeInput = document.getElementById("startNodeInput");
-    startNodeInput.innerHTML = "";
-    for (let i = 0; i < size; i++) {
-        const option = document.createElement("option");
-        option.value = cityNames[i];
-        option.text = cityNames[i];
-        startNodeInput.appendChild(option);
-    }
+
 
 }
+
+// refresh start city dropdown
+updateStartCitySelect();
 
 //onclick to egde to change label
 graphNetwork.on('click', function (params) {
@@ -141,13 +155,13 @@ graphNetwork.on('click', function (params) {
     console.log(params.edges.length);
     if (params.edges.length == 1) {
         const clickedEdge = params.edges[0]
-         const newDistance = prompt("Enter New distance")
+        const newDistance = prompt("Enter New distance")
         graph.edges.update({
             id: clickedEdge,
             label: newDistance
         });
     }
-  
+
 });
 //change node position according to newDistance
 
@@ -170,7 +184,7 @@ $("#editor").keyup(function (e) {
     } else {
         if (parseInt(textArea.value) >= 15 || parseInt(textArea.value) < 1) {
 
-            
+
         } else {
             timer = setTimeout(function () {
                 updateGraph();
@@ -181,9 +195,11 @@ $("#editor").keyup(function (e) {
 
 graphNetwork.on('doubleClick', function doubleClick(params) {
     if (params.nodes.length === 0 && params.edges.length === 0 && nodes.length < maxNodesNumber) {
+        var idx = nodes.length;
         nodes.add({
-            id: nodes.length,
-            label: String.fromCharCode(65 + nodes.length) + '\n' + cityNames[nodes.length],
+            id: idx,
+            label: '' + ((manualCityNames && manualCityNames[idx]) ? manualCityNames[idx].charAt(0).toUpperCase() : String.fromCharCode(65 + idx)),
+            title: (manualCityNames && manualCityNames[idx]) ? manualCityNames[idx] : String.fromCharCode(65 + idx),
             x: Math.trunc(params.pointer.canvas.x),
             y: Math.trunc(params.pointer.canvas.y)
         });
@@ -203,6 +219,8 @@ graphNetwork.on('doubleClick', function doubleClick(params) {
     graph.edges.add(edges);
 
     updateTextArea();
+    // update dropdown when user double-clicks new city
+    updateStartCitySelect();
 
 
 

@@ -15,47 +15,66 @@ var treeOptions = {
     },
     edges: {
         color: {
-            color: '#517cff',
-            highlight: '#517cff',
-            hover: '#517cff'
+            color: '#c7c7c7',
+            highlight: '#9aa8ff',
+            hover: '#9aa8ff'
         },
         arrows: {
             to: {
                 enabled: false
             },
             from: {
-                enabled: true           
-             }
+                enabled: false
+            }
         },
         smooth: false,
         chosen: true,
         font: {
-            color: '#FFFFFF',
-            size: 18, // px
+            color: '#222222',
+            size: 10, // px
             face: 'Roboto',
-            background: '#343434',
+            background: 'transparent',
             strokeWidth: 0,
             align: 'horizontal'
         },
         labelHighlightBold: true,
         selectionWidth: 1,
         selfReferenceSize: 20,
-        width: 3,
+        width: 2,
         widthConstraint: false
     },
     nodes: {
         borderWidth: 2,
         borderWidthSelected: 3,
+        color: {
+            background: '#6b7bff',
+            border: '#2f43b5',
+            highlight: {
+                background: '#8fa1ff',
+                border: '#1f2f8f'
+            },
+            hover: {
+                background: '#8fa1ff',
+                border: '#1f2f8f'
+            }
+        },
         font: {
-            color: '#343434',
-            size: 18,
+            color: '#ffffff',
+            size: 14,
             face: 'Roboto',
             strokeWidth: 0,
             align: 'center',
-            vadjust: -40
+            vadjust: -30
         },
         shape: 'dot',
-        size: 20
+        size: 16,
+        shadow: {
+            enabled: true,
+            color: 'rgba(0,0,0,0.12)',
+            size: 10,
+            x: 0,
+            y: 6
+        }
     },
     interaction: {
         dragView: true,
@@ -95,16 +114,35 @@ var graphOptions = {
     nodes: {
         borderWidth: 2,
         borderWidthSelected: 3,
+        color: {
+            background: '#6b7bff',
+            border: '#2f43b5',
+            highlight: {
+                background: '#8fa1ff',
+                border: '#1f2f8f'
+            },
+            hover: {
+                background: '#8fa1ff',
+                border: '#1f2f8f'
+            }
+        },
         font: {
-            color: '#343434',
-            size: 16,
+            color: '#ffffff',
+            size: 14,
             face: 'Roboto',
             strokeWidth: 0,
             align: 'center',
-            vadjust: -35
+            vadjust: -30
         },
         shape: 'dot',
-        size: 12
+        size: 16,
+        shadow: {
+            enabled: true,
+            color: 'rgba(0,0,0,0.12)',
+            size: 10,
+            x: 0,
+            y: 6
+        }
     },
     interaction: {
         dragView: true,
@@ -114,7 +152,7 @@ var graphOptions = {
 
 var treeRoot = {
     border: '#18ab17',
-    background:'#c7fcb4' ,
+    background: '#c7fcb4',
     highlight: {
         border: '#18ab17',
         background: '#c7fcb4'

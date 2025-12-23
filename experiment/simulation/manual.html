@@ -21,10 +21,10 @@
         <div class="headinfo">
             <!-- <div class="about" >Info &nbsp;
                 <i class="fa fa-info-circle" id="about-circle"style="font-size:20px;color: rgb(206, 201, 201);">
-                    <p><b>*Double Click To Add New Nodes</b><br>
+                    <p><b>*Double-click on an empty area in the City Map (playground) to add a new city</b><br>
                         <b>*Click The Labels To Change The Distance</b><br></p>
                         </i></a>
-                        </div> -->
+                        </div -->
        
        
             
@@ -40,11 +40,6 @@
         </div> -->
         <div class="fle">
         <div id="boxx">          
-            <div class="story">
-                <h3>The Traveling Salesman Problem</h3>
-                <p>In this simulation, a salesman needs to visit a number of cities using the shortest path.</p>
-                <p id="second-instruction" style="display:none;">Please enter a starting city for the salesman's journey.</p>
-            </div>
             <div class="rm">
                <!-- index.html in a radio button -->
                 <div class ="ran">
@@ -62,49 +57,56 @@
                     </label>
                 </div>
             </div>
+                        <div id="manualInstruction" class="manual-instruction" aria-hidden="false">
+                            <div class="manual-line">Double-click on an empty area in the City Map (playground) to add a new city.</div>
+                            <div class="manual-line">Click the labels to change the distance</div>
+                        </div>
             <div id="s" >
-        <label for="editor" >Number of cities: </label>
+        <label for="editor" >Number of cities</label>
         
-        <input type ="text" id='editor' placeholder="Enter a number" rows="2">
+        <input type ="text" id='editor' placeholder="Enter number of cities" rows="2">
         
-        <div id="start-node-container" style="display:none;">
-            <label for="startNodeInput">Source Node: </label>
-            <input type="text" id="startNodeInput" style="width: 97%;   ">
-        </div>
+        <label for="startCitySelect">Source City: </label>
+        <select id="startCitySelect" style="width: 97%;"><option value="">Select city</option></select>
     </div>
     
     
     <script>
-        document.getElementById("editor").addEventListener("keyup", function(event) {
-            if (this.value.trim() !== "") {
-                document.getElementById("start-node-container").style.display = "block";
-                document.getElementById("second-instruction").style.display = "block";
-            }
+        document.querySelectorAll('label').forEach(function(label) {
+            label.addEventListener('click', function() {
+                console.log('Label clicked!');
+            });
         });
 
-        document.getElementById("startNodeInput").addEventListener("keyup", function(event) {
-            if (event.keyCode === 13) {
-                document.getElementById("btn-container").style.display = "block";
-            }
-        });
+        var startCitySelect = document.getElementById("startCitySelect");
+        if (startCitySelect) {
+            startCitySelect.addEventListener("change", function(event) {
+                if (!startCitySelect.value) {
+                    // if empty selection, reset results
+                    resetOnlyResult();
+                }
+            });
+        }
 
 
     </script>
     
       
-        <div class="btn1" id="btn-container" style="display:none;">
+        <div class="btn1">
             <div class="btn green" id="submitbtn" onclick="solvePlanar(solveBranchAndBound);">Solve</div>
             <div class="btn red" style="margin-right: 0;" onclick="stopAnimation(); reset();">Reset</div>
         </div>                
         
-        <div class="name">Heuristic Search Iteration</div>
-        <div id="feedpath">
-        <div id="path Explanation" style="overflow:scroll;height:180px;"></div>
+        <div id="heuristicIterationSection" style="display: none;">
+            <div class="name">Heuristic Search Iteration</div>
+            <div id="feedpath">
+                <div id="path Explanation" style="overflow:scroll;height:250px;"></div>
+            </div>
         </div>
      <script>
         function clearText() {
           document.getElementById("editor").value = ""
-          document.getElementById("startNodeInput").value = ""
+          var sel = document.getElementById('startCitySelect'); if (sel) sel.value = ''; else document.getElementById("startNodeInput").value = ''
           const newTextFields = document.getElementById("newTextFields");
 
     }
@@ -113,31 +115,31 @@
         <div class="content" style="position: relative;">
             
          <div class="feed">
-            <div class="infoh">
-                <p><b>*Double Click To Add New Nodes</b><br>
+            <!-- <div class="infoh">
+                <p><b>*Double-click on an empty area in the City Map (playground) to add a new city</b><br>
                     <b>*Click The Labels To Change The Distance</b><br></p>
-            </div>
-            
-            <div id="shortest_path" style="position: absolute; bottom: 35px;"></div>
-            <div id="final_path" style="position: absolute; bottom: 15px;color: #138412;font-weight: 600;"></div>
-            <div id="final_length" style="position: absolute; bottom: 50px;"></div>
-           
-           
+            </div> -->
          </div>
-            <div class="column" style="width:55%; border-right: 1px solid #af0c0c">
-                
+            <div class="column panel-graph" style="width:55%; border-right: 1px solid #af0c0c">
+                <h2 class="section-heading">City Map View</h2>
                 <!-- <div class="about left top" >About &nbsp;
                     <i class="fa fa-info-circle" id="about-circle"style="font-size:20px;color: rgb(206, 201, 201);">
-                        <p><b>*Double Click To Add New Nodes</b><br>
+                        <p><b>*Double-click on an empty area in the City Map (playground) to add a new city</b><br>
                             <b>*Click The Labels To Change The Distance</b><br></p>
                             </i></a> -->
                     <!-- <b>DoubleClick</b> - add point <br> 
                     <b>Drag</b> - nodes to change distance<br> -->
                 <!-- </div>  -->
                 <div id="graph"></div>
+                <div class="graph-bottom-info">
+                    <div id="shortest_path"></div>
+                    <div id="final_path" style="color: #138412; font-weight: 600;"></div>
+                    <div id="final_length"></div>
+                </div>
                
             </div>
-            <div class="column" style="width:44%">
+            <div class="column panel-tree" style="width:44%">
+                <h2 class="section-heading">Search Tree</h2>
                 <div id="tree"></div>
                 <div id="info" class="hint left top">
                    

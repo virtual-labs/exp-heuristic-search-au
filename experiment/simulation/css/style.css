@@ -165,10 +165,142 @@ body {
     color: rgb(136, 24, 24);
 }
 
+/* Section headings for the City Map View and Search Tree */
+.section-heading {
+    color: #0b2540;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+    padding: 8px 12px;
+    border-radius: 6px;
+    /* background: linear-gradient(90deg, rgba(255,255,255,0.6), rgba(200,200,200,0.6)); */
+    display: block;
+}
+
+/* Graph and tree panels */
+#graph, #tree {
+    flex: 1 1 auto;
+    min-height: 320px;
+    margin: 12px;
+    padding: 12px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.06);
+    overflow: auto;
+}
+
+/* Legend overlay shown on the graph panel */
+.graph-legend {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: rgba(11, 37, 64, 0.9);
+    color: #ffffff;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    max-width: 220px;
+    max-height: 220px;
+    overflow: auto;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    z-index: 20;
+}
+
+/* allow hiding the legend until a graph is generated */
+.graph-legend.hidden {
+    display: none;
+} 
+
+.graph-legend .legend-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.graph-legend .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.graph-legend .legend-key {
+    display: inline-flex;
+    width: 26px;
+    height: 26px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.graph-legend .legend-val {
+    flex: 1 1 auto;
+    font-size: 0.9rem;
+    line-height: 1.1;
+}
+
+/* Bottom overlay inside the City Map panel for showing results */
+.graph-bottom-info {
+    position: absolute; /* absolute inside .panel-graph which is relatively positioned */
+    left: 16px;
+    bottom: 12px;
+    z-index: 60; /* above graph canvas */
+    color: #0b2540;
+    font-weight: 700;
+    background: rgba(255,255,255,0.9);
+    padding: 6px 10px;
+    border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    max-width: 64%;
+}
+
+.graph-bottom-info #shortest_path, .graph-bottom-info #final_path, .graph-bottom-info #final_length {
+    margin: 2px 0;
+    font-size: 0.95rem;
+}
+
+/* Small color swatches for hints/legend */
+.swatch {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    margin-right: 8px;
+    vertical-align: middle;
+    border: 1px solid rgba(0,0,0,0.06);
+}
+
+.swatch.green { background: #138412; }
+.swatch.red { background: #d51913; }
+
+/* Themed panels */
+.panel-graph .section-heading {
+    background: transparent; /* removed gradient to match neutral style */
+    color: inherit; /* use base heading color */
+    box-shadow: none; /* remove shadow */
+} 
+
+.panel-tree .section-heading {
+    background: transparent; /* removed gradient to match neutral style */
+    color: inherit; /* use base heading color */
+    box-shadow: none; /* remove shadow */
+}
+
+.panel-graph #graph {
+    background: linear-gradient(180deg,#f6f8ff,#ffffff);
+}
+
+.panel-tree #tree {
+    background: linear-gradient(180deg,#fffaf5,#ffffff);
+}
+
 .index {
     margin-top: 4em;
     font-size: 2em;
-}
+} 
 
 .algorithms {
     margin: 1em auto auto;
@@ -258,8 +390,8 @@ textarea{
     font-size: 1.8rem;
 }
 input{
-   background-color: #e8e9eb;
-    font-size: 1.2rem;
+   background-color: #999ba0;
+    font-size: 1.5rem;
     border:1px solid rgb(146, 142, 142);
     border-radius: 5px;
     text-align: center;
@@ -268,7 +400,6 @@ label{
     margin-top: 80px;
     margin-bottom:20px ;
     color: white;
-    font-size: 1.2rem;
     
 }
 #s input{
@@ -277,14 +408,87 @@ label{
    
 }
 #boxx{
-    border:1px solid rgb(188, 206, 236);
+   border:1px solid rgb(188, 206, 236);
     margin-right: 2rem;
     margin-left: 2rem;
-    width:25%;
-    height: 100%;
-    padding: 20px;
+    width:20%;
+    height: 80%;
+    padding: 10px;
+   
     border-radius: 10px;
-    background-color: #1c2a4a;
+}
+
+#instructionBox {
+    margin-bottom: 25px; /* Increased bottom margin */
+    padding: 15px; /* Increased padding */
+    border: 1px solid #4a6078; /* Border matching the theme */
+    border-radius: 8px; /* Slightly more rounded corners */
+   /* Light background for instructions */
+    color: #f0eaea; /* Dark text color for contrast */
+    font-size: 0.95em; /* Slightly smaller font for instructions */
+    line-height: 1.5;
+    text-align: justify; /* Justify text for a cleaner look */
+}
+
+/* Emphasize the initial action the user must take */
+.instruction-emphasis {
+    color: #5a3f00;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(255,183,77,0.08);
+    margin-left: 6px;
+    transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+}
+
+/* transient stronger highlight for initial instruction */
+.instruction-emphasis.instruction-highlight {
+    box-shadow: 0 12px 36px rgba(255,183,77,0.18);
+    transform: translateY(-3px) scale(1.01);
+}
+
+/* inline secondary instruction that appears after entering valid number */
+.instruction-inline {
+    margin-top: 4px; /* less vertical gap */
+    color: #bce954; /* blue color for emphasis */
+    font-size: inherit; /* use the same font size as surrounding text */
+    font-weight: 400; /* normal weight to match the paragraph */
+    padding: 0; /* remove padded box look */
+    border-radius: 0;
+    display: block;
+}
+
+.instruction-inline-line {
+    margin-top: 0; /* no extra gap between lines */
+    font-weight: 400; /* normal weight */
+    padding: 0; /* no extra padding */
+    border-radius: 0;
+    display: block;
+    line-height: 1.2;
+}
+
+/* transient highlight animation for inline instruction */
+.instruction-inline-line.instruction-highlight {
+    box-shadow: 0 6px 18px rgba(90,130,255,0.12);
+    transform: translateY(-2px);
+    transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+}  
+
+/* Manual mode small instruction */
+.manual-instruction {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #e0c68a;
+    border-radius: 6px;
+    background-color: #fff8e6;
+    color: #3a2b00;
+    font-size: 0.9em; /* unified font size */
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.4;
+    text-align: left;
+}
+.manual-instruction .manual-line {
+    margin-top: 4px;
 }
 .fle{
     display: flex;
@@ -294,14 +498,13 @@ label{
     margin-left:2rem;
 }
 #feedpath{
-   
-   border-radius: 5px;
-   padding-left: 10%;
-  
-    padding-top: 10%;
-    width: 90%;
-    height: 30%;
-    background-color: rgb(233, 230, 230);
+   border-radius: 6px;
+   padding: 10px;
+   width: 90%;
+   box-sizing: border-box;
+   max-height: 180px; /* limit height so it doesn't push content down */
+   overflow-y: auto; /* add vertical scroll when content overflows */
+   background-color: rgb(233, 230, 230);
 }
 .infoh{
     margin-top:20px;
@@ -554,7 +757,35 @@ label{
   }
   .rm{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around; /* Distribute space evenly */
+    margin-bottom: 20px; /* Add some space below the radio buttons */
+}
+
+.rm input[type="radio"] {
+    display: none; /* Hide the default radio button */
+}
+
+.rm label {
+    display: inline-block;
+    padding: 8px 15px;
+    border: 1px solid #5a667a;
+    border-radius: 5px;
+    color: #ecf0f1;
+    cursor: pointer;
+    background-color: #34495e; /* Default background for labels */
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+    margin: 0 5px; /* Adjust spacing between labels */
+}
+
+.rm input[type="radio"]:checked + label {
+    background-color: #828DF8; /* Highlight for selected radio button */
+    border-color: #828DF8;
+    color: white;
+}
+
+.rm label:hover {
+    background-color: #4a6078;
 }
 .name{
     color:white;
@@ -567,66 +798,54 @@ label{
 
 
 }
-.story {
-    color: white;
-    margin-bottom: 20px;
+/* Styling for input fields and selects */
+#s label, #startCityContainer label {
+    color: #ecf0f1; /* Light text color for labels */
+    margin-top: 15px; /* Adjust top margin for spacing */
+    margin-bottom: 5px; /* Adjust bottom margin */
+    display: block; /* Make labels block elements for better stacking */
+    font-size: 1em; /* Consistent font size */
 }
 
-.instructions-container {
-    background-color: #2a3b60;
-    padding: 15px;
+#numCities, #startCity {
+    background-color: #4a6078; /* Darker background for inputs */
+    color: #ecf0f1; /* Light text color for input values */
+    border: 1px solid #5a667a; /* Border color matching theme */
     border-radius: 5px;
+    padding: 8px 10px; /* Padding for input fields */
+    font-size: 1em; /* Consistent font size */
+    width: calc(100% - 22px); /* Adjust width considering padding and border */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    margin-bottom: 15px; /* Space below inputs */
 }
 
-.highlight {
-    color: yellow;
+#numCities:focus, #startCity:focus {
+    outline: none;
+    border-color: #828DF8; /* Highlight border on focus */
+    box-shadow: 0 0 5px rgba(130, 141, 248, 0.5);
 }
 
-.graph-title {
-    text-align: center;
-    font-weight: bold;
-    padding: 10px;
+.btn {
+    padding: 10px 15px; /* Adjusted padding for buttons */
+    margin-top: 0; /* Reset top margin as btn1 handles spacing */
+    margin-bottom: 0; /* Reset bottom margin */
+    width: auto; /* Auto width based on content */
+    display: inline-block; /* Allow buttons to sit side-by-side */
+    text-align: center; /* Center text within buttons */
+    font-size: 1em; /* Consistent font size */
 }
 
-@media (max-width: 768px) {
-    body {
-        overflow: auto;
-    }
-    .fle {
-        flex-direction: column;
-    }
-    #boxx {
-        width: 90%;
-        margin: 0 auto;
-        overflow: auto;
-        max-height: 50vh;
-    }
-    .content {
-        width: 100%;
-        margin: 2em 0 0 0;
-    }
-    .column {
-        width: 100%;
-    }
+.btn1 {
+    display: flex; /* Use flexbox for button alignment */
+    justify-content: center; /* Center buttons horizontally */
+    gap: 10px; /* Space between buttons */
+    height: auto; /* Adjust height automatically */
+    padding-top: 15px; /* Top padding for spacing */
+    padding-bottom: 15px; /* Bottom padding for spacing */
 }
 
-@media (max-width: 480px) {
-    body {
-        font-size: 14px;
-    }
-    #boxx {
-        width: 95%;
-    }
-}
-
-@media (orientation: landscape) and (max-height: 500px) {
-    body {
-        overflow-x: auto;
-    }
-    .fle {
-        flex-direction: row;
-    }
-    .main-column {
-        width: 1000px;
-    }
+/* Specific styling for .ran and .man labels to match the new radio button style */
+.ran label, .man label {
+    margin-top: 0;
+    margin-bottom: 0;
 }
