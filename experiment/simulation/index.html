@@ -41,7 +41,7 @@
                         </div>
             <div id="s" style="display: block;">
                 <label for="numCities">Number of cities:</label>
-                <input type="number" id="numCities" min="2" max="15" style="width: 97%;">
+                <input type="number" id="numCities" min="2" max="10" style="width: 97%;">
                 <div class="btn1" style="display: none;">
                                     <div class="btn green" id="generateBtn">Generate</div>
                                 </div>            </div>
@@ -67,8 +67,9 @@
          <div class="feed">
             
          </div>
-            <div class="column panel-graph" style="width:55%; border-right: 1px solid #af0c0c">
+            <div class="column panel-graph" style="width:55%;">
                 <h2 class="section-heading">City Map View</h2>
+                <div id="mapTopNote" class="map-top-note hidden"><span class="map-tip-emoji"></span><strong>Drag nodes to move them.</strong></div>
                 <div id="graphLegend" class="graph-legend hidden" aria-hidden="true"></div>
                 <!-- <div class="about left top" >haii
                     <i class="fa fa-info-circle" id="about-circle"style="font-size:20px;color: rgb(206, 201, 201);">
@@ -105,7 +106,7 @@
             <script type="text/javascript" src="js/script.js"></script>
             <script type="text/javascript" src="js/editor.js"></script>
             <script type="text/javascript" src="js/solver.js"></script>
-            <script>maxNodesNumber = 15;</script>
+            <script>maxNodesNumber = 10;</script>
         </div>
     </div>
 </body>

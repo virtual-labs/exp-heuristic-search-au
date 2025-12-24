@@ -120,7 +120,7 @@
                     <b>*Click The Labels To Change The Distance</b><br></p>
             </div> -->
          </div>
-            <div class="column panel-graph" style="width:55%; border-right: 1px solid #af0c0c">
+            <div class="column panel-graph" style="width:55%;">
                 <h2 class="section-heading">City Map View</h2>
                 <!-- <div class="about left top" >About &nbsp;
                     <i class="fa fa-info-circle" id="about-circle"style="font-size:20px;color: rgb(206, 201, 201);">
@@ -130,6 +130,7 @@
                     <!-- <b>DoubleClick</b> - add point <br> 
                     <b>Drag</b> - nodes to change distance<br> -->
                 <!-- </div>  -->
+                <div id="mapTopNote" class="map-top-note">Tip: Drag nodes to move them. Double-click on an empty area to add a new city.</div>
                 <div id="graph"></div>
                 <div class="graph-bottom-info">
                     <div id="shortest_path"></div>
@@ -156,7 +157,7 @@
             <script type="text/javascript" src="js/manual/man_script.js"></script>
             <script type="text/javascript" src="js/manual/man_editor.js"></script>
             <script type="text/javascript" src="js/manual/man_solver.js"></script>
-            <script>maxNodesNumber = 100; smallGraph();</script>
+            <script>maxNodesNumber = 10; smallGraph();</script>
         </div>
     </div>
 </body>
