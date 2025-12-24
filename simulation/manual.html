@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Index page</title>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/vis.min.js"></script>
+    <script type="text/javascript" src="js/queue.js"></script>
+    <script type="text/javascript" src="js/manual/man_option.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&subset=cyrillic" rel="stylesheet" referrerpolicy="origin">
+
+    <link href="css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    
+    <div class="main-column">
+        <div class="headinfo">
+            <!-- <div class="about" >Info &nbsp;
+                <i class="fa fa-info-circle" id="about-circle"style="font-size:20px;color: rgb(206, 201, 201);">
+                    <p><b>*Double-click on an empty area in the City Map (playground) to add a new city</b><br>
+                        <b>*Click The Labels To Change The Distance</b><br></p>
+                        </i></a>
+                        </div -->
+       
+       
+            
+
+                
+        </div>
+    
+        
+    
+        <!-- <div id="gt">
+        <div id="gr"><b>Graph shows the shortest path</b></div>
+        <div id="tr"> <b>Tree shows all the possible paths</b></div>
+        </div> -->
+        <div class="fle">
+        <div id="boxx">          
+            <div class="rm">
+               <!-- index.html in a radio button -->
+                <div class ="ran">
+                    <input onchange="window.location.href='./index.html'" type="radio" name="mode" id="random" value="random">
+                    <label for="random">
+                        
+                        Random</a>
+                    </label>
+</div>
+                <div class ="man">
+                     <input onchange="window.location.href='./manual.html'" type="radio" name="mode" id="manual" value="manual" checked>
+                    <label for="manual">
+                       
+                        Manual</a>
+                    </label>
+                </div>
+            </div>
+                        <div id="manualInstruction" class="manual-instruction" aria-hidden="false">
+                            <div class="manual-line">Double-click on an empty area in the City Map (playground) to add a new city.</div>
+                            <div class="manual-line">Click the labels to change the distance</div>
+                        </div>
+            <div id="s" >
+        <label for="editor" >Number of cities</label>
+        
+        <input type ="text" id='editor' placeholder="Enter number of cities" rows="2">
+        
+        <label for="startCitySelect">Source City: </label>
+        <select id="startCitySelect" style="width: 97%;"><option value="">Select city</option></select>
+    </div>
+    
+    
+    <script>
+        document.querySelectorAll('label').forEach(function(label) {
+            label.addEventListener('click', function() {
+                console.log('Label clicked!');
+            });
+        });
+
+        var startCitySelect = document.getElementById("startCitySelect");
+        if (startCitySelect) {
+            startCitySelect.addEventListener("change", function(event) {
+                if (!startCitySelect.value) {
+                    // if empty selection, reset results
+                    resetOnlyResult();
+                }
+            });
+        }
+
+
+    </script>
+    
+      
+        <div class="btn1">
+            <div class="btn green" id="submitbtn" onclick="solvePlanar(solveBranchAndBound);">Solve</div>
+            <div class="btn red" style="margin-right: 0;" onclick="stopAnimation(); reset();">Reset</div>
+        </div>                
+        
+        <div id="heuristicIterationSection" style="display: none;">
+            <div class="name">Heuristic Search Iteration</div>
+            <div id="feedpath">
+                <div id="path Explanation" style="overflow:scroll;height:250px;"></div>
+            </div>
+        </div>
+     <script>
+        function clearText() {
+          document.getElementById("editor").value = ""
+          var sel = document.getElementById('startCitySelect'); if (sel) sel.value = ''; else document.getElementById("startNodeInput").value = ''
+          const newTextFields = document.getElementById("newTextFields");
+
+    }
+      </script>
+      </div>
+        <div class="content" style="position: relative;">
+            
+         <div class="feed">
+            <!-- <div class="infoh">
+                <p><b>*Double-click on an empty area in the City Map (playground) to add a new city</b><br>
+                    <b>*Click The Labels To Change The Distance</b><br></p>
+            </div> -->
+         </div>
+            <div class="column panel-graph" style="width:55%;">
+                <h2 class="section-heading">City Map View</h2>
+                <!-- <div class="about left top" >About &nbsp;
+                    <i class="fa fa-info-circle" id="about-circle"style="font-size:20px;color: rgb(206, 201, 201);">
+                        <p><b>*Double-click on an empty area in the City Map (playground) to add a new city</b><br>
+                            <b>*Click The Labels To Change The Distance</b><br></p>
+                            </i></a> -->
+                    <!-- <b>DoubleClick</b> - add point <br> 
+                    <b>Drag</b> - nodes to change distance<br> -->
+                <!-- </div>  -->
+                <div id="mapTopNote" class="map-top-note"> Drag nodes to move them</div>
+                <div id="graph"></div>
+                <div class="graph-bottom-info">
+                    <div id="shortest_path"></div>
+                    <div id="final_path" style="color: #138412; font-weight: 600;"></div>
+                    <div id="final_length"></div>
+                </div>
+               
+            </div>
+            <div class="column panel-tree" style="width:44%">
+                <h2 class="section-heading">Search Tree</h2>
+                <div id="tree"></div>
+                <div id="info" class="hint left top">
+                   
+                </div>
+                
+                <div class="hint1" style=" bottom: 15px;">
+                    
+                    <!-- <span style="color:#e99528">yellow</span> - Start<br> -->
+                    <div ><span style="color:#138412 ">Green </span>- Shortest path<br></div>
+                    <div ><span style="color:#d51913">Red </span>-All Possible Paths<br></div>
+                   
+                </div>
+            </div></div>
+            <script type="text/javascript" src="js/manual/man_script.js"></script>
+            <script type="text/javascript" src="js/manual/man_editor.js"></script>
+            <script type="text/javascript" src="js/manual/man_solver.js"></script>
+            <script>maxNodesNumber = 10; smallGraph();</script>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Index page</title>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/vis.min.js"></script>
+    <script type="text/javascript" src="js/queue.js"></script>
+    <script type="text/javascript" src="js/options.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&subset=cyrillic" rel="stylesheet" referrerpolicy="origin">
+
+    <link href="css/reset.css" rel="stylesheet" type="text/css"/>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    
+    <div class="main-column">
+        <div class="headinfo">
+                       
+        </div>
+        <div class="fle">
+                    <div id="boxx">
+                    <div class="rm">
+                        <div class="ran">                    <input type="radio" onchange="window.location.href='./index.html'" name="mode" id="random" value="random" checked>
+
+                            <label for="random">Random</label>
+                </div>
+                <div class="man">
+                    <input type="radio" name="mode" onchange="window.location.href='./manual.html'" id="manual" value="manual">
+                    <label for="manual">Manual</label>
+                </div>
+            </div>
+                        <div id="instructionBox" style="margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                            In this simulation, a salesman needs to visit a number of cities using the shortest path.
+                            <div id="instructionInline" class="instruction-inline" style="display:block;">
+                                <div id="instr-enter-cities" class="instruction-inline-line">Enter the number of cities to start the simulation.</div>
+                            </div>
+                        </div>
+            <div id="s" style="display: block;">
+                <label for="numCities">Number of cities:</label>
+                <input type="number" id="numCities" min="2" max="10" style="width: 97%;">
+                <div class="btn1" style="display: none;">
+                                    <div class="btn green" id="generateBtn">Generate</div>
+                                </div>            </div>
+            <div id="startCityContainer" style="display: none;">
+                <label for="startCity">Start City:</label>
+                <select id="startCity" style="width: 97%;"></select>
+            </div>
+            <div class="btn1" id="solveResetContainer" style="display: none;">
+                <div class="btn green" id="submitbtn" onclick="solvePlanar(solveBranchAndBound);">Solve</div>
+                <div class="btn red" style="margin-right: 0;" onclick="stopAnimation(); reset();">Reset</div>
+            </div>
+            <div id="heuristicIterationSection" style="display: none;">
+                <div class="name">Heuristic Search Iteration</div>
+                <div id="feedpath">
+                    <div id="path Explanation" style="overflow:scroll;height:150px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="content" style="position: relative;">
+            
+           
+            
+         <div class="feed">
+            
+         </div>
+            <div class="column panel-graph" style="width:55%;">
+                <h2 class="section-heading">City Map View</h2>
+                <div id="mapTopNote" class="map-top-note hidden"><span class="map-tip-emoji"></span><strong>Drag nodes to move them.</strong></div>
+                <div id="graphLegend" class="graph-legend hidden" aria-hidden="true"></div>
+                <!-- <div class="about left top" >haii
+                    <i class="fa fa-info-circle" id="about-circle"style="font-size:20px;color: rgb(206, 201, 201);">
+                        <p>Hill climbing is a simple heuristic search algorithm. To find the global optimum, we randomly start from a point and look at the neighboring points.
+                            If we find a point that is better than the current one, we move in its direction.
+                             Then, we do the same for the new point until we reach a point where there’s no better one in its vicinity.</p>
+                            </i></a> -->
+                    <!-- <b>Double-click on an empty area in the City Map (playground)</b> - add point <br> 
+                    <b>Drag</b> - nodes to change distance<br> -->
+                <!-- </div>  -->
+                <div id="graph"></div>
+                <div class="graph-bottom-info">
+                    <div id="shortest_path"></div>
+                    <div id="final_path" style="color: #138412; font-weight: 600;"></div>
+                    <div id="final_length"></div>
+                </div>
+               
+            </div>
+            <div class="column panel-tree" style="width:44%">
+                <h2 class="section-heading">Search Tree</h2>
+                <div id="tree"></div>
+                <div id="info" class="hint left top">
+                   
+                </div>
+                
+                <div class="hint1" style=" bottom: 15px;">
+                    
+                    <!-- <span style="color:#e99528">yellow</span> - Start<br> -->
+                    <div><span class="swatch green"></span> Shortest path<br></div>
+                    <div><span class="swatch red"></span> All possible paths<br></div>
+                   
+                </div>
+            </div></div>
+            <script type="text/javascript" src="js/script.js"></script>
+            <script type="text/javascript" src="js/editor.js"></script>
+            <script type="text/javascript" src="js/solver.js"></script>
+            <script>maxNodesNumber = 10;</script>
+        </div>
+    </div>
+<script src="../assets/js/iframeResize.js"></script>
+        
+        </body>
+</html>

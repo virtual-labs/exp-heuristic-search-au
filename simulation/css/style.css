@@ -1,0 +1,892 @@
+body {
+    font-family: 'Roboto', sans-serif, verdana;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    background-color: #0f1629;
+    overflow: hidden;  
+}
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+.content {
+    margin: 0 auto;
+    margin-right: 2em;
+    width: 100%;
+    height: 80vh;
+    background-color: #c8d1e2;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    
+    border-radius: 20px;
+  
+    overflow: hidden;
+}
+
+.column {
+    float: left;
+    width: 50%;
+    margin-top: 1em;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
+   
+}
+
+#tree, #result {
+    background-color: transparent;
+}
+
+#tree {
+    height: 100%;
+}
+
+#graph {
+    height: 100%;
+}
+
+
+.hint {
+    font-size: 1em;
+    position: absolute;
+    display: flex;
+       
+}
+
+
+.hint1 {
+    font-size: 1em;
+    position: absolute;
+    right: 8px;    
+}
+.hint1 * {
+    margin : 4px;
+}
+
+
+
+.top{
+    bottom: 10%;
+    font-size:1.4rem;
+    width: 50%;
+    margin:8px
+}
+
+.right {
+    right: 3px;
+    font-size:1.4rem;
+    width: 50%;
+    
+}
+.btn1{
+    height: 60px;
+    position:relative;
+    padding-top: 10px;
+    
+    border-radius: 5px;
+}
+.btn {
+    cursor: pointer;
+    height: 50%;
+    border-radius: 3px;
+    text-align: center;
+    border: 1px solid #080000;
+    margin-top: 10px;
+    color: white;
+    margin-right: 1%;
+   padding-top: 5%;
+    margin-bottom: 2px;
+    transition: 0.2s;
+    font-size: large;
+    font-weight: 500;
+   
+
+}
+
+.green {
+    background-color: #828DF8;
+}
+
+.green:hover {
+    background-color: #71ae73;
+}
+
+.green:active {
+    background-color: #128f10;
+}
+
+.red {
+    background-color: #3BBFF8;
+}
+
+.red:hover {
+    background-color: #d05151;
+}
+
+.red:active {
+    background-color: #b12220;
+}
+
+.header {
+   
+    overflow: hidden;
+   
+    font-size: 1.5em;
+    
+    color: white !important;
+    text-align:right;
+    width:80%;
+   
+   
+}
+.headinfo{
+   
+    margin-top:5%;
+   
+    display: flex;
+    
+    margin-left: 22%;
+    
+}
+.about{
+   
+   color:#ffffff;
+   
+   font-size:1.4rem;
+    width:10%;
+}
+.header:hover, .header:active {
+    color: rgb(136, 24, 24);
+}
+
+/* Section headings for the City Map View and Search Tree */
+.section-heading {
+    color: #0b2540;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+    padding: 8px 12px;
+    border-radius: 6px;
+    /* background: linear-gradient(90deg, rgba(255,255,255,0.6), rgba(200,200,200,0.6)); */
+    display: block;
+}
+
+/* Graph and tree panels */
+#graph, #tree {
+    flex: 1 1 auto;
+    min-height: 320px;
+    margin: 12px;
+    padding: 12px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.06);
+    overflow: auto;
+}
+
+/* Legend overlay shown on the graph panel */
+.graph-legend {
+    position: absolute;
+    top: 84px; /* moved further down to ensure space under the tip box */
+    right: 18px;
+    background: #fffef6; /* light background */
+    color: #0b2540; /* dark text */
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    max-width: 220px;
+    max-height: 220px;
+    overflow: auto;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    border: 1px solid rgba(11,37,64,0.06);
+    z-index: 20;
+}
+
+/* allow hiding the legend until a graph is generated */
+.graph-legend.hidden {
+    display: none;
+} 
+
+.graph-legend .legend-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.graph-legend .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.graph-legend .legend-key {
+    display: inline-flex;
+    width: 26px;
+    height: 26px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.graph-legend .legend-val {
+    flex: 1 1 auto;
+    font-size: 0.9rem;
+    line-height: 1.1;
+}
+
+/* Bottom overlay inside the City Map panel for showing results */
+.graph-bottom-info {
+    position: absolute; /* absolute inside .panel-graph which is relatively positioned */
+    left: 16px;
+    bottom: 12px;
+    z-index: 60; /* above graph canvas */
+    color: #0b2540;
+    font-weight: 700;
+    background: rgba(255,255,255,0.9);
+    padding: 6px 10px;
+    border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    max-width: 64%;
+}
+
+.graph-bottom-info #shortest_path, .graph-bottom-info #final_path, .graph-bottom-info #final_length {
+    margin: 2px 0;
+    font-size: 0.95rem;
+}
+
+/* Small color swatches for hints/legend */
+.swatch {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    margin-right: 8px;
+    vertical-align: middle;
+    border: 1px solid rgba(0,0,0,0.06);
+}
+
+.swatch.green { background: #138412; }
+.swatch.red { background: #d51913; }
+
+/* Themed panels */
+.panel-graph .section-heading {
+    background: transparent; /* removed gradient to match neutral style */
+    color: inherit; /* use base heading color */
+    box-shadow: none; /* remove shadow */
+} 
+
+.panel-tree .section-heading {
+    background: transparent; /* removed gradient to match neutral style */
+    color: inherit; /* use base heading color */
+    box-shadow: none; /* remove shadow */
+}
+
+.panel-graph #graph {
+    background: linear-gradient(180deg,#f6f8ff,#ffffff);
+}
+
+.panel-tree #tree {
+    background: linear-gradient(180deg,#fffaf5,#ffffff);
+}
+
+.index {
+    margin-top: 4em;
+    font-size: 2em;
+} 
+
+.algorithms {
+    margin: 1em auto auto;
+    display: block;
+    overflow: hidden;
+    width: 60%;
+}
+
+.algorithm {
+    float: left;
+    background-color: white;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    display: block;
+    overflow: hidden;
+    width: 45%;
+    text-align: center;
+    box-sizing: border-box;
+    margin-right: 5%;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 1.2em;
+}
+
+.algorithm:hover {
+    background-color: #e0e0e0;
+}
+
+.algorithm:active {
+    background-color: #707070;
+    color: white;
+}
+#gr{
+   height: 30px;
+    position:relative;
+    padding-top: 10px;
+    margin-left: 18%;
+    border-radius: 5px;
+    text-align: center;
+    width: 340px;
+    background-color: hsl(231, 55%, 76%);
+}
+#tr{
+     height: 30px;
+     padding-top: 10px;
+     position: relative;
+     text-align: center;
+     border-radius: 5px;
+     width:340px;
+     background-color: hsl(231, 55%, 76%);
+ }
+#gt{
+    display:flex;
+    justify-content: space-around;
+    width: 95%;
+    margin-top: 20px;
+}
+
+ 
+ #editor {
+    width: 97%;
+    resize:none;
+    border-radius: 5px;
+    
+}
+
+ #s{
+    margin-top: 20px;
+    margin-bottom: 0;
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+   }
+#ed{
+height:50%
+   }
+
+::placeholder{
+    color: rgb(7, 7, 7);
+    font-size: 1rem;
+    
+    text-align: center;
+    font-family: 'Roboto', sans-serif, verdana;
+}
+textarea{
+    font-size: 1.8rem;
+}
+input{
+   background-color: #999ba0;
+    font-size: 1.5rem;
+    border:1px solid rgb(146, 142, 142);
+    border-radius: 5px;
+    text-align: center;
+}
+label{
+    margin-top: 80px;
+    margin-bottom:20px ;
+    color: white;
+    
+}
+#s input{
+    margin-bottom: 20px;
+    margin-top: 10px;
+   
+}
+#boxx{
+   border:1px solid rgb(188, 206, 236);
+    margin-right: 2rem;
+    margin-left: 2rem;
+    width:20%;
+    height: 70%;
+    padding: 10px;
+    overflow-y: auto;
+   
+    border-radius: 10px;
+}
+
+#instructionBox {
+    margin-bottom: 25px; /* Increased bottom margin */
+    padding: 15px; /* Increased padding */
+    border: 1px solid #4a6078; /* Border matching the theme */
+    border-radius: 8px; /* Slightly more rounded corners */
+   /* Light background for instructions */
+    color: #f0eaea; /* Dark text color for contrast */
+    font-size: 0.95em; /* Slightly smaller font for instructions */
+    line-height: 1.5;
+    text-align: justify; /* Justify text for a cleaner look */
+}
+
+/* Emphasize the initial action the user must take */
+.instruction-emphasis {
+    color: #5a3f00;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(255,183,77,0.08);
+    margin-left: 6px;
+    transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+}
+
+/* transient stronger highlight for initial instruction */
+.instruction-emphasis.instruction-highlight {
+    box-shadow: 0 12px 36px rgba(255,183,77,0.18);
+    transform: translateY(-3px) scale(1.01);
+}
+
+/* inline secondary instruction that appears after entering valid number */
+.instruction-inline {
+    margin-top: 4px; /* less vertical gap */
+    color: #bce954; /* blue color for emphasis */
+    font-size: inherit; /* use the same font size as surrounding text */
+    font-weight: 400; /* normal weight to match the paragraph */
+    padding: 0; /* remove padded box look */
+    border-radius: 0;
+    display: block;
+}
+
+.instruction-inline-line {
+    margin-top: 0; /* no extra gap between lines */
+    font-weight: 400; /* normal weight */
+    padding: 0; /* no extra padding */
+    border-radius: 0;
+    display: block;
+    line-height: 1.2;
+}
+
+/* transient highlight animation for inline instruction */
+.instruction-inline-line.instruction-highlight {
+    box-shadow: 0 6px 18px rgba(90,130,255,0.12);
+    transform: translateY(-2px);
+    transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+}  
+
+/* inline error message styling */
+.instruction-error {
+    color: #c22; /* red */
+    font-weight: 700;
+    margin-top: 4px;
+    display: block;
+}
+.instruction-error.instruction-highlight {
+    box-shadow: 0 6px 18px rgba(194,34,34,0.12);
+    transform: translateY(-2px);
+    transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+}  
+
+/* small tip box shown above the City Map */
+.panel-graph .map-top-note {
+    position: absolute; /* position over the top-right of the graph panel */
+    top: 12px; /* moved slightly higher beneath the section heading */
+    right: 16px;
+    display: inline-block; /* compact box sized to content */
+    background: #fffef6;
+    border: 1px solid #f0e6b8;
+    color: #333;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.95em;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.04);
+    vertical-align: middle;
+    z-index: 72; /* above graph and legend */
+}
+.map-top-note strong {
+    font-weight: 700;
+}
+.map-top-note .map-tip-emoji {
+    margin-right: 8px;
+}
+.map-top-note.hidden {
+    display: none;
+}
+
+/* Manual mode small instruction */
+.manual-instruction {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #e0c68a;
+    border-radius: 6px;
+    background-color: #fff8e6;
+    color: #3a2b00;
+    font-size: 0.9em; /* unified font size */
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.4;
+    text-align: left;
+}
+.manual-instruction .manual-line {
+    margin-top: 4px;
+}
+.fle{
+    display: flex;
+    justify-content:space-between;    
+}
+.feed{
+    margin-left:2rem;
+}
+#feedpath{
+   border-radius: 6px;
+   padding: 10px;
+   width: 90%;
+   box-sizing: border-box;
+   max-height: 180px; /* limit height so it doesn't push content down */
+   overflow-y: auto; /* add vertical scroll when content overflows */
+   background-color: rgb(233, 230, 230);
+}
+.infoh{
+    margin-top:20px;
+    width: 50%;
+}
+#info-circle::before{
+    
+    content: "\f05a";
+    font-weight: normal;
+    color:rgb(248, 248, 248);
+}
+#info-circle:hover p{
+    display:block;
+    transform-origin: 100% 0%;
+    -webkit-animation: fadeIn 0.3s ease;
+    animation: fadeIn 0.3s ease;
+	}
+#info-circle p{
+    display: none;
+	font-family: sans-serif;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	text-align: center;
+	background-color: #ebe3e3;
+	padding: 12px 16px;
+	width: 178px;
+	height: auto;
+	position: absolute;
+	left: 89%;
+	transform: translate(-50%, 5%);
+	border-radius: 3px;
+/* 	border: 1px solid #E0E0E0; */
+	box-shadow: 0 0px 20px 0 rgba(0,0,0,0.1);
+	color: #37393D;
+	font-size: 12px;
+	line-height: 18px;
+	z-index: 99;
+
+}
+
+
+#about-circle::before{
+    
+    content: "\f05a";
+    font-weight: normal;
+    color:rgb(255, 252, 252);
+}
+#about-circle:hover p{
+    display:block;
+    transform-origin: 100% 0%;
+    -webkit-animation: fadeIn 0.3s ease;
+    animation: fadeIn 0.3s ease;
+    
+	}
+#about-circle p{
+    display: none;
+	font-family: sans-serif;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	text-align: center;
+	background-color: #ffffff;
+	padding: 12px 16px;
+	width: 178px;
+	height: auto;
+	position: absolute;
+	left: 30%;
+	transform: translate(-50%, 5%);
+	border-radius: 3px;
+/* 	border: 1px solid #E0E0E0; */
+	box-shadow: 0 0px 20px 0 rgba(0,0,0,0.1);
+	color: #000000;
+	font-size: 12px;
+	line-height: 18px;
+	z-index: 99;
+    border: 1px solid rgb(46, 45, 45);
+
+}
+.popup h2 {
+    margin-top: 0;
+    color: #333;
+    font-size:large;
+    font-family: Tahoma, Arial, sans-serif;
+  }
+  .popup .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 0.2s;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+  }
+  .popup .close:hover {
+    color: #06D85F;
+  }
+   /*Let's make it appear when the page loads*/
+  .overlay:target:before {
+      display: none;
+  }
+  .overlay:before {
+    content:"";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    z-index: 9;
+  }
+  .overlay .popup {
+    background: #fff;
+    border-radius: 5px;
+    width: 30%;
+    position: fixed;
+    top: 0;
+    left: 35%;
+    padding: 25px;
+    margin: 70px auto;
+    z-index: 10;
+    -webkit-transition: all 0.6s ease-in-out;
+    -moz-transition: all 0.6s ease-in-out;
+    transition: all 0.6s ease-in-out;
+  }
+  .overlay:target .popup {
+      top: -100%;
+      left: -100%;
+  }
+  
+  
+.popup1 h2 {
+    margin-top: 0;
+    color: #333;
+    font-size:large;
+    margin-right: 3.5%;
+    font-family: Tahoma, Arial, sans-serif;
+  }
+  .popup1 .close1 {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 0.2s;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+  } 
+  .popup1 .close1:hover {
+    color: #06D85F;
+  }
+   /*Let's make it appear when the page loads*/
+  .overlay1:target:before {
+      display: none;
+  }
+  .overlay1:before {
+    content:"";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    z-index: 9;
+  }
+  .overlay1 .popup1 {
+    background: #fff;
+    border-radius: 5px;
+    width: 30%;
+    position: fixed;
+    top: 0;
+    left: 35%;
+    padding: 25px;
+    margin: 70px auto;
+    z-index: 10;
+    -webkit-transition: all 0.6s ease-in-out;
+    -moz-transition: all 0.6s ease-in-out;
+    transition: all 0.6s ease-in-out;
+  }
+  .overlay1:target .popup1 {
+      top: -100%;
+      left: -100%;
+  }
+  
+.popup2 h2 {
+    margin-top: 0;
+    color: #333;
+    font-size:large;
+    font-family: Tahoma, Arial, sans-serif;
+  }
+  .popup2 .close2 {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 0.2s;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+  }
+  .popup2 .close2:hover {
+    color: #06D85F;
+  }
+   /*Let's make it appear when the page loads*/
+  .overlay2:target:before {
+      display: none;
+  }
+  .overlay2:before {
+    content:"";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    z-index: 9;
+  }
+  .overlay2 .popup2 {
+    background: #fff;
+    border-radius: 5px;
+    width: 30%;
+    position: fixed;
+    top: 0;
+    left: 35%;
+    padding: 25px;
+    margin: 70px auto;
+    z-index: 10;
+    -webkit-transition: all 0.6s ease-in-out;
+    -moz-transition: all 0.6s ease-in-out;
+    transition: all 0.6s ease-in-out;
+  }
+  .overlay2:target .popup2 {
+      top: -100%;
+      left: -100%;
+  }
+ 
+ 
+  .man a{
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    border: 1px solid rgb(122, 121, 121);
+  }
+ 
+  .ran a{
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    border: 1px solid rgb(121,121, 121);
+  }
+  .rm{
+    display: flex;
+    justify-content: space-around; /* Distribute space evenly */
+    margin-bottom: 20px; /* Add some space below the radio buttons */
+}
+
+.rm input[type="radio"] {
+    display: none; /* Hide the default radio button */
+}
+
+.rm label {
+    display: inline-block;
+    padding: 8px 15px;
+    border: 1px solid #5a667a;
+    border-radius: 5px;
+    color: #ecf0f1;
+    cursor: pointer;
+    background-color: #34495e; /* Default background for labels */
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+    margin: 0 5px; /* Adjust spacing between labels */
+}
+
+.rm input[type="radio"]:checked + label {
+    background-color: #828DF8; /* Highlight for selected radio button */
+    border-color: #828DF8;
+    color: white;
+}
+
+.rm label:hover {
+    background-color: #4a6078;
+}
+.name{
+    color:white;
+    margin-top: 5%;
+    margin-left: 20px;
+    font-size: 20px;
+    margin-bottom: 6%;
+
+
+
+
+}
+/* Styling for input fields and selects */
+#s label, #startCityContainer label {
+    color: #ecf0f1; /* Light text color for labels */
+    margin-top: 15px; /* Adjust top margin for spacing */
+    margin-bottom: 5px; /* Adjust bottom margin */
+    display: block; /* Make labels block elements for better stacking */
+    font-size: 1em; /* Consistent font size */
+}
+
+#numCities, #startCity {
+    background-color: #4a6078; /* Darker background for inputs */
+    color: #ecf0f1; /* Light text color for input values */
+    border: 1px solid #5a667a; /* Border color matching theme */
+    border-radius: 5px;
+    padding: 8px 10px; /* Padding for input fields */
+    font-size: 1em; /* Consistent font size */
+    width: calc(100% - 22px); /* Adjust width considering padding and border */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    margin-bottom: 15px; /* Space below inputs */
+}
+
+#numCities:focus, #startCity:focus {
+    outline: none;
+    border-color: #828DF8; /* Highlight border on focus */
+    box-shadow: 0 0 5px rgba(130, 141, 248, 0.5);
+}
+
+.btn {
+    padding: 10px 15px; /* Adjusted padding for buttons */
+    margin-top: 0; /* Reset top margin as btn1 handles spacing */
+    margin-bottom: 0; /* Reset bottom margin */
+    width: auto; /* Auto width based on content */
+    display: inline-block; /* Allow buttons to sit side-by-side */
+    text-align: center; /* Center text within buttons */
+    font-size: 1em; /* Consistent font size */
+}
+
+.btn1 {
+    display: flex; /* Use flexbox for button alignment */
+    justify-content: center; /* Center buttons horizontally */
+    gap: 10px; /* Space between buttons */
+    height: auto; /* Adjust height automatically */
+    padding-top: 15px; /* Top padding for spacing */
+    padding-bottom: 15px; /* Bottom padding for spacing */
+}
+
+/* Specific styling for .ran and .man labels to match the new radio button style */
+.ran label, .man label {
+    margin-top: 0;
+    margin-bottom: 0;
+}
