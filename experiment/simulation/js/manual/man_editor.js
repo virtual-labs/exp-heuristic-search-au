@@ -3,7 +3,7 @@ var nodes = graph.nodes;
 var textArea = document.getElementById('editor');
 document.getElementById("editor").disabled = true;
 
-var maxNodesNumber = 100;
+var maxNodesNumber = 10;
 
 // Prefer using the shared `cityNames` array used in Random mode. Falls back to a local list if not available.
 var manualCityNames = (window.cityNames && window.cityNames.length) ? window.cityNames.slice() : ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata", "Surat", "Pune", "Jaipur", "Lucknow", "Kanpur", "Nagpur", "Indore", "Thane"];
@@ -222,7 +222,9 @@ graphNetwork.on('doubleClick', function doubleClick(params) {
     // update dropdown when user double-clicks new city
     updateStartCitySelect();
 
-
+    // show map tip when node(s) exist
+    var mapNote = document.getElementById('mapTopNote');
+    if (mapNote && nodes.length > 0) mapNote.classList.remove('hidden');
 
 },);
 

@@ -1,5 +1,5 @@
 var nodes = graph.nodes;
-var maxNodesNumber = 15;
+var maxNodesNumber = 10;
 
 const cityNames = ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata", "Surat", "Pune", "Jaipur", "Lucknow", "Kanpur", "Nagpur", "Indore", "Thane"];
 // expose for manual mode to reuse the same city name list
@@ -47,25 +47,51 @@ document.getElementById('startCity').addEventListener('change', function () {
 
 function generateGraph() {
     var numCities = parseInt(document.getElementById('numCities').value);
+    var instructionInline = document.getElementById('instructionInline');
 
-    if (isNaN(numCities) || numCities < 2 || numCities > maxNodesNumber) {
-        // If invalid input, hide containers
+    // Remove any previous 'too many' error when re-evaluating the input
+    if (instructionInline) {
+        var prevErr = document.getElementById('instr-too-many-cities');
+        if (prevErr) prevErr.remove();
+    }
+
+    // Handle non-numeric or too small values: clear UI and graph
+    if (isNaN(numCities) || numCities < 2) {
         document.getElementById('startCityContainer').style.display = 'none';
         document.getElementById('solveResetContainer').style.display = 'none';
-        // Hide and clear any inline instruction lines
-        var ins = document.getElementById('instructionInline'); if (ins) { ins.style.display = 'none'; ins.innerHTML = ''; }
-        // Hide and clear legend if present
+        if (instructionInline) { instructionInline.style.display = 'block'; instructionInline.innerHTML = '<div id="instr-enter-cities" class="instruction-inline-line">Enter the number of cities to start the simulation.</div>'; }
         var leg = document.getElementById('graphLegend'); if (leg) { leg.classList.add('hidden'); leg.setAttribute('aria-hidden', 'true'); leg.innerHTML = ''; }
-        // Clear graph if any
         nodes.clear();
         graph.edges.clear();
+        var mapNote = document.getElementById('mapTopNote'); if (mapNote) mapNote.classList.add('hidden');
         return;
     }
 
-    updateGraph(numCities);
+    // Specifically handle values greater than allowed max: show a clear error message
+    if (numCities > maxNodesNumber) {
+        document.getElementById('startCityContainer').style.display = 'none';
+        document.getElementById('solveResetContainer').style.display = 'none';
+        var leg = document.getElementById('graphLegend'); if (leg) { leg.classList.add('hidden'); leg.setAttribute('aria-hidden', 'true'); leg.innerHTML = ''; }
+        nodes.clear();
+        graph.edges.clear();
+        var mapNote = document.getElementById('mapTopNote'); if (mapNote) mapNote.classList.add('hidden');
+        if (instructionInline) {
+            instructionInline.style.display = 'block';
+            var err = document.createElement('div');
+            err.id = 'instr-too-many-cities';
+            err.className = 'instruction-inline-line instruction-error';
+            err.textContent = 'Maximum allowed cities is ' + maxNodesNumber + '. Please enter a value less than or equal to ' + maxNodesNumber + '.';
+            instructionInline.appendChild(err);
+            err.classList.add('instruction-highlight');
+            setTimeout(function () { err.classList.remove('instruction-highlight'); }, 2500);
+        }
+        return;
+    }
 
-    // Show a contextual next instruction inline and highlight the new line briefly
-    var instructionInline = document.getElementById('instructionInline');
+    // Valid input: proceed and ensure no error remains
+    updateGraph(numCities);
+    var mapNote = document.getElementById('mapTopNote'); if (mapNote) mapNote.classList.remove('hidden');
+
     if (instructionInline) {
         instructionInline.style.display = 'block';
         if (!document.getElementById('instr-select-start')) {

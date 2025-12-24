@@ -193,17 +193,18 @@ body {
 /* Legend overlay shown on the graph panel */
 .graph-legend {
     position: absolute;
-    top: 18px;
+    top: 84px; /* moved further down to ensure space under the tip box */
     right: 18px;
-    background: rgba(11, 37, 64, 0.9);
-    color: #ffffff;
+    background: #fffef6; /* light background */
+    color: #0b2540; /* dark text */
     padding: 8px 10px;
     border-radius: 8px;
     font-size: 0.85rem;
     max-width: 220px;
     max-height: 220px;
     overflow: auto;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    border: 1px solid rgba(11,37,64,0.06);
     z-index: 20;
 }
 
@@ -370,7 +371,7 @@ body {
 
  #s{
     margin-top: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 0;
     cursor: pointer;
     transition: 0.2s;
     position: relative;
@@ -412,8 +413,9 @@ label{
     margin-right: 2rem;
     margin-left: 2rem;
     width:20%;
-    height: 80%;
+    height: 70%;
     padding: 10px;
+    overflow-y: auto;
    
     border-radius: 10px;
 }
@@ -473,6 +475,45 @@ label{
     transform: translateY(-2px);
     transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
 }  
+
+/* inline error message styling */
+.instruction-error {
+    color: #c22; /* red */
+    font-weight: 700;
+    margin-top: 4px;
+    display: block;
+}
+.instruction-error.instruction-highlight {
+    box-shadow: 0 6px 18px rgba(194,34,34,0.12);
+    transform: translateY(-2px);
+    transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+}  
+
+/* small tip box shown above the City Map */
+.panel-graph .map-top-note {
+    position: absolute; /* position over the top-right of the graph panel */
+    top: 12px; /* moved slightly higher beneath the section heading */
+    right: 16px;
+    display: inline-block; /* compact box sized to content */
+    background: #fffef6;
+    border: 1px solid #f0e6b8;
+    color: #333;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.95em;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.04);
+    vertical-align: middle;
+    z-index: 72; /* above graph and legend */
+}
+.map-top-note strong {
+    font-weight: 700;
+}
+.map-top-note .map-tip-emoji {
+    margin-right: 8px;
+}
+.map-top-note.hidden {
+    display: none;
+}
 
 /* Manual mode small instruction */
 .manual-instruction {
@@ -789,7 +830,7 @@ label{
 }
 .name{
     color:white;
-    margin-top: 30%;
+    margin-top: 5%;
     margin-left: 20px;
     font-size: 20px;
     margin-bottom: 6%;
